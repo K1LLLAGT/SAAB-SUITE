@@ -1,0 +1,1 @@
+Place Tech2 USB driver installer here (legacy, for hardware Tech2 devices).

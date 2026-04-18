@@ -1,0 +1,96 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.eggs/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# Build / packaging
+build/
+dist/
+*.whl
+*.tar.gz
+*.AppImage
+*.pyz
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Runtime -- never commit
+runtime/logs/
+runtime/backups/
+runtime/cache/
+runtime/audit/
+runtime/locks/
+!runtime/.gitkeep
+!runtime/**/.gitkeep
+
+# Vendor binaries
+vendor/drivers/*/*.zip
+vendor/drivers/*/*.exe
+vendor/drivers/*/*.msi
+vendor/isos/*/*.iso
+vendor/isos/*/*.exe
+vendor/isos/*/*.msi
+vendor/isos/*/*.rar
+vendor/isos/*/*.zip
+vendor/firmware/**/*.bin
+vendor/firmware/**/*.zip
+vendor/deliverables/*.xml
+vendor/deliverables/*.zip
+vendor/tools/**/*.exe
+vendor/tools/**/*.msi
+vendor/tools/**/*.zip
+vendor/tools/**/*.rar
+vendor/tools/*keygen*
+vendor/tools/*crack*
+vendor/legacy_archive/*.zip
+!vendor/**/.gitkeep
+!vendor/README.md
+!vendor/**/README.md
+
+# VM disk images
+vms/*/*.vmdk
+vms/*/*.vdi
+vms/*/*.qcow2
+vms/*/*.iso
+vms/*/.vagrant/
+
+# Local config
+.env
+.env.local
+.saab-suite.toml
+runtime/api-token.txt
+
+# Secrets
+*.pem
+*.key
+!docs/**/*.key.example
+
+# OS
+*.log
+*.tmp
+*~

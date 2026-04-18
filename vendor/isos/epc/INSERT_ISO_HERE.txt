@@ -1,0 +1,2 @@
+Place EPC ISO/installer here. See vms/win7-saab/README.md
+and vms/winxp-saab/README.md for installation order.

@@ -1,0 +1,12 @@
+# WMI / VDS / model-year-char mapping rules.
+# Phase-2 will load and apply.
+
+[[rule]]
+wmi = "YS3"
+description = "SAAB passenger vehicles"
+market = "ROW"
+
+[[rule]]
+wmi = "YS3F"
+description = "SAAB 9-3 (post-2003)"
+platform = "GM_EPSILON"

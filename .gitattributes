@@ -1,0 +1,22 @@
+vendor/drivers/**/*.zip filter=lfs diff=lfs merge=lfs -text
+vendor/drivers/**/*.exe filter=lfs diff=lfs merge=lfs -text
+vendor/drivers/**/*.msi filter=lfs diff=lfs merge=lfs -text
+vendor/isos/**/*.iso    filter=lfs diff=lfs merge=lfs -text
+vendor/isos/**/*.exe    filter=lfs diff=lfs merge=lfs -text
+vendor/isos/**/*.msi    filter=lfs diff=lfs merge=lfs -text
+vendor/isos/**/*.rar    filter=lfs diff=lfs merge=lfs -text
+vendor/isos/**/*.zip    filter=lfs diff=lfs merge=lfs -text
+vendor/firmware/**/*.bin filter=lfs diff=lfs merge=lfs -text
+vendor/firmware/**/*.zip filter=lfs diff=lfs merge=lfs -text
+vendor/deliverables/*.xml filter=lfs diff=lfs merge=lfs -text
+vendor/deliverables/*.zip filter=lfs diff=lfs merge=lfs -text
+vendor/legacy_archive/*.zip filter=lfs diff=lfs merge=lfs -text
+
+tests/fixtures/dbc/*.dbc binary
+tests/fixtures/can_logs/*.ndjson text
+*.dbc binary
+
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf

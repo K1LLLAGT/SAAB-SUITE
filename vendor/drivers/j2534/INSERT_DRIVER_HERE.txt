@@ -1,0 +1,3 @@
+Place J2534 PassThru installer (.zip / .msi / .exe) here.
+Examples: Mongoose Pro GM II, Drew Tech, Tactrix, Bosch.
+After install, configure the DLL path in ~/.config/saab-suite/config.toml.

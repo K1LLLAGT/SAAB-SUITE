@@ -1,0 +1,15 @@
+# Dev image -- full toolchain, all extras, all tests runnable.
+FROM python:3.12-slim AS dev
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git build-essential pkg-config libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+COPY pyproject.toml README.md LICENSE ./
+COPY src ./src
+COPY tests ./tests
+
+RUN pip install --no-cache-dir -e ".[dev,tui,web]"
+
+CMD ["pytest", "-ra"]

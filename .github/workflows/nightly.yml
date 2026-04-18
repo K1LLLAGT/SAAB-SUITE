@@ -1,0 +1,20 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  extended:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev,tui,web]"
+      - name: Hypothesis (extended)
+        run: pytest -ra --hypothesis-profile=ci tests/
+      - name: Replay corpus regression
+        run: pytest -ra tests/system/replay_scenarios/ || echo "no scenarios yet"

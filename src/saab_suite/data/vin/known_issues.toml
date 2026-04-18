@@ -1,0 +1,13 @@
+# VIN-range-keyed known issues.
+# Pattern matching: WMI prefix + position predicates.
+# Phase-2 will load and apply.
+
+[[issue]]
+issue_id = "SAAB-93-XWD-HALDEX-PUMP-2008"
+severity = "ADVISORY"
+title = "Haldex pump duty degradation"
+description = "Gen4 Haldex pumps may exhibit elevated duty over time. Service interval recommended at 60k miles."
+applies_wmi = ["YS3"]
+applies_model_year = 2008
+applies_drivetrain = "XWD"
+references = ["TSB-XX-001"]

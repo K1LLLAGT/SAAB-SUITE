@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "saab-suite-trionic"
+version = "0.1.0"
+description = "Trionic T7/T8 flash targets, tuning, calibration parsers"
+requires-python = ">=3.11"
+dependencies = ["saab-suite>=0.1,<2.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/saab_suite_trionic"]

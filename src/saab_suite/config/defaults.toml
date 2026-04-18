@@ -1,0 +1,20 @@
+# Built-in defaults. User config overrides these.
+
+[can]
+source = "mock"
+bitrate = 500000
+
+[sps]
+min_battery_v = 12.4
+require_real_flash_env = true
+audit_log_path = "runtime/audit/audit.sqlite"
+
+[logging]
+level = "INFO"
+redact_vin = false
+log_dir = "runtime/logs"
+
+[web]
+bind_host = "127.0.0.1"
+bind_port = 8765
+require_token = false

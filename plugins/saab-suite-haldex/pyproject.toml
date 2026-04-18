@@ -1,0 +1,13 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "saab-suite-haldex"
+version = "0.1.0"
+description = "Gen4 Haldex models, predictive failure, XWD dashboards"
+requires-python = ">=3.11"
+dependencies = ["saab-suite>=0.1,<2.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/saab_suite_haldex"]

@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,tui,web]"
+
+      - name: Ruff (lint)
+        run: ruff check .
+
+      - name: Ruff (format check)
+        run: ruff format --check .
+
+      - name: Mypy
+        run: mypy src/saab_suite
+
+      - name: Import-linter (architecture contracts)
+        run: lint-imports
+
+      - name: Bandit (security scan)
+        run: bandit -r src/saab_suite/services/sps src/saab_suite/adapters/j2534
+
+      - name: Pytest
+        run: pytest -ra --cov=saab_suite --cov-report=term-missing
+
+      - name: Reject licensing-bypass artifacts
+        run: |
+          if git ls-files | grep -E "(keygen|crack|serial)" | grep -v "^vendor/tools/"; then
+              echo "ERROR: licensing-bypass artifacts outside vendor/tools/" >&2
+              exit 1
+          fi
+
+  build-wheel:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build twine
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-and-sdist
+          path: dist/

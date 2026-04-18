@@ -1,0 +1,234 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "saab-suite"
+version = "0.1.0"
+description = "OEM-grade diagnostic and programming suite for SAAB 9-3 / 9-5 (Trionic T8, AF40-6, Haldex Gen4)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "GWT", email = "gt@example.invalid" }]
+keywords = ["saab", "obd", "uds", "kwp2000", "j2534", "sps", "trionic", "haldex", "automotive", "diagnostics"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: Other/Proprietary License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: Android",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Hardware",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.6",
+    "structlog>=24.1",
+    "click>=8.1",
+    "typer>=0.12",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+hardware = [
+    "python-can>=4.3",
+    "cantools>=39.4",
+    "can-isotp>=2.0; sys_platform=='linux'",
+]
+tui = ["textual>=0.60"]
+web = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "jinja2>=3.1",
+    "websockets>=12.0",
+    "python-multipart>=0.0.9",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.1",
+    "pytest-asyncio>=0.23",
+    "pytest-mock>=3.12",
+    "hypothesis>=6.100",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "import-linter>=2.0",
+    "bandit>=1.7",
+    "build>=1.2",
+    "twine>=5.0",
+]
+all = ["saab-suite[hardware,tui,web,dev]"]
+
+[project.urls]
+Homepage = "https://github.com/k1lllagt/saab-suite"
+Repository = "https://github.com/k1lllagt/saab-suite"
+Issues = "https://github.com/k1lllagt/saab-suite/issues"
+
+[project.scripts]
+saab = "saab_suite.interfaces.cli.main:main"
+saab-tui = "saab_suite.interfaces.tui.app:main"
+saab-web = "saab_suite.interfaces.web.app:main"
+
+[project.entry-points."saab_suite.can_source"]
+mock = "saab_suite.adapters.can.mock_source:MockCanSource"
+replay = "saab_suite.adapters.can.replay_source:ReplayCanSource"
+
+[project.entry-points."saab_suite.flash_target"]
+
+[project.entry-points."saab_suite.tui_screen"]
+
+[project.entry-points."saab_suite.fault_pattern"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/saab_suite"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/saab_suite/data" = "saab_suite/data"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/", "tests/", "docs/", "README.md", "CHANGELOG.md", "LICENSE", "SECURITY.md", "CONTRIBUTING.md", "pyproject.toml"]
+exclude = ["vendor/", "runtime/", "vms/", "plugins/"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = ["vendor", "runtime", "vms"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "S", "UP", "SIM", "TCH", "RUF", "I", "N", "D"]
+ignore = ["D203", "D213", "S101", "D100", "D104", "D107"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D", "S101", "S105", "S106"]
+"src/saab_suite/data/**" = ["D"]
+"src/saab_suite/__version__.py" = ["D"]
+"src/saab_suite/interfaces/**" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+warn_unreachable = true
+files = ["src/saab_suite"]
+
+[[tool.mypy.overrides]]
+module = "saab_suite.adapters.*"
+disallow_untyped_decorators = false
+disallow_any_unimported = false
+
+[[tool.mypy.overrides]]
+module = "saab_suite.interfaces.*"
+disallow_untyped_decorators = false
+disallow_any_unimported = false
+
+[[tool.mypy.overrides]]
+module = ["cantools.*", "can.*", "isotp.*", "textual.*"]
+ignore_missing_imports = true
+
+[tool.importlinter]
+root_packages = ["saab_suite"]
+
+[[tool.importlinter.contracts]]
+name = "Hexagonal layering: inward-only dependencies"
+type = "layers"
+layers = [
+    "saab_suite.interfaces",
+    "saab_suite.adapters",
+    "saab_suite.services",
+    "saab_suite.ports",
+    "saab_suite.domain",
+    "saab_suite.kernel",
+]
+
+[[tool.importlinter.contracts]]
+name = "Kernel must not import from project"
+type = "forbidden"
+source_modules = ["saab_suite.kernel"]
+forbidden_modules = [
+    "saab_suite.domain", "saab_suite.ports", "saab_suite.services",
+    "saab_suite.adapters", "saab_suite.interfaces",
+]
+
+[[tool.importlinter.contracts]]
+name = "Domain must not touch I/O or vendor libs"
+type = "forbidden"
+source_modules = ["saab_suite.domain"]
+forbidden_modules = [
+    "ctypes", "socket", "flask", "fastapi", "textual", "cantools", "can",
+    "saab_suite.adapters", "saab_suite.interfaces",
+]
+
+[[tool.importlinter.contracts]]
+name = "Services must not import adapters or interfaces"
+type = "forbidden"
+source_modules = ["saab_suite.services"]
+forbidden_modules = ["saab_suite.adapters", "saab_suite.interfaces", "ctypes"]
+
+[[tool.importlinter.contracts]]
+name = "Only j2534 windows adapter may import ctypes"
+type = "forbidden"
+source_modules = [
+    "saab_suite.kernel", "saab_suite.domain", "saab_suite.ports",
+    "saab_suite.services", "saab_suite.adapters.can", "saab_suite.adapters.isotp",
+    "saab_suite.adapters.uds", "saab_suite.adapters.kwp", "saab_suite.adapters.stores",
+    "saab_suite.adapters.dbc", "saab_suite.adapters.vehicle_state",
+    "saab_suite.interfaces",
+]
+forbidden_modules = ["ctypes"]
+
+[[tool.importlinter.contracts]]
+name = "CLI sibling isolation"
+type = "forbidden"
+source_modules = ["saab_suite.interfaces.cli"]
+forbidden_modules = ["saab_suite.interfaces.tui", "saab_suite.interfaces.web"]
+
+[[tool.importlinter.contracts]]
+name = "TUI sibling isolation"
+type = "forbidden"
+source_modules = ["saab_suite.interfaces.tui"]
+forbidden_modules = ["saab_suite.interfaces.cli", "saab_suite.interfaces.web"]
+
+[[tool.importlinter.contracts]]
+name = "Web sibling isolation"
+type = "forbidden"
+source_modules = ["saab_suite.interfaces.web"]
+forbidden_modules = ["saab_suite.interfaces.cli", "saab_suite.interfaces.tui"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+markers = [
+    "unit: pure unit tests, no I/O",
+    "integration: integration tests using mocks/in-memory adapters",
+    "system: end-to-end CLI/TUI/Web tests",
+    "hw: requires real hardware (J2534, CAN bus, ECU) - opt in with -m hw",
+    "slow: longer-running tests, excluded from default loop",
+]
+
+[tool.coverage.run]
+source = ["src/saab_suite"]
+branch = true
+omit = [
+    "src/saab_suite/adapters/j2534/*",
+    "src/saab_suite/adapters/can/canusb_source.py",
+    "src/saab_suite/__version__.py",
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+fail_under = 0
+
+[tool.bandit]
+targets = ["src/saab_suite/services/sps", "src/saab_suite/adapters/j2534"]
+exclude_dirs = ["tests", "vendor", "runtime"]

@@ -1,0 +1,31 @@
+"""J2534-1 / J2534-2 constants. No imports beyond stdlib."""
+
+from __future__ import annotations
+
+from enum import IntEnum
+
+PROTOCOL_J1850VPW = 0x01
+PROTOCOL_J1850PWM = 0x02
+PROTOCOL_ISO9141 = 0x03
+PROTOCOL_ISO14230 = 0x04
+PROTOCOL_CAN = 0x05
+PROTOCOL_ISO15765 = 0x06
+PROTOCOL_SCI_A_ENGINE = 0x07
+
+FILTER_PASS = 0x01
+FILTER_BLOCK = 0x02
+FILTER_FLOW_CONTROL = 0x03
+
+
+class IoctlId(IntEnum):
+    """Common J2534 IOCTL identifiers."""
+
+    GET_CONFIG = 0x01
+    SET_CONFIG = 0x02
+    READ_VBATT = 0x03
+    FIVE_BAUD_INIT = 0x04
+    FAST_INIT = 0x05
+    CLEAR_TX_BUFFER = 0x07
+    CLEAR_RX_BUFFER = 0x08
+    CLEAR_PERIODIC_MSGS = 0x09
+    CLEAR_MSG_FILTERS = 0x0A

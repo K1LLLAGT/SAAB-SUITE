@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=SAAB Suite
+Exec=AppRun
+Icon=saab-suite
+Categories=Development;Utility;
+Terminal=true

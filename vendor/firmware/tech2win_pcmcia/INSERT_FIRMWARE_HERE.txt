@@ -1,0 +1,1 @@
+Place tech2win_pcmcia firmware bin/zip files here.

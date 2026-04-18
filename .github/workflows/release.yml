@@ -1,0 +1,50 @@
+name: release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build wheel + sdist
+        run: python -m build
+
+      - name: Twine check
+        run: python -m twine check dist/*
+
+      - name: Generate SBOM (CycloneDX)
+        run: |
+          pip install cyclonedx-bom
+          cyclonedx-py -o dist/sbom.json -e
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/sbom.json
+          body: |
+            See CHANGELOG.md for details.
+
+            Verification:
+              python -m pip install saab-suite==${{ github.ref_name }}
+              saab version

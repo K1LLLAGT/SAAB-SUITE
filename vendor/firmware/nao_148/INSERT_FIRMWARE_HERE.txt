@@ -1,0 +1,1 @@
+Place nao_148 firmware bin/zip files here.
