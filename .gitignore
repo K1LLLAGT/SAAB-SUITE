@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.tox/
+venv/
+env/
+.env
+*.pyo
+
+# Virtual environments
+vm/images/
+vm/*.iso
+vm/*.vmdk
+vm/*.ova
+
+# Drivers (compiled binaries)
+drivers/bin/
+drivers/*.dll
+drivers/*.so
+drivers/*.dylib
+
+# Firmware binaries
+firmware/bin/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and data
+*.log
+*.csv
+data/captures/
+data/dumps/
+
+# Coverage
+.coverage
+htmlcov/
+coverage.xml
