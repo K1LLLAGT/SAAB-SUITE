@@ -158,7 +158,10 @@ class CANBus:
         self._callbacks.append(fn)
 
     def remove_callback(self, fn: Callable[[CANFrame], None]) -> None:
-        self._callbacks.discard(fn)  # type: ignore[attr-defined]
+        try:
+            self._callbacks.remove(fn)
+        except ValueError:
+            pass
 
     # ------------------------------------------------------------------
     # Filtering

@@ -66,7 +66,12 @@ class DTCCode:
 
     @property
     def code_str(self) -> str:
-        """Return the SAE-style code string, e.g. ``P0100``."""
+        """Return the SAE-style code string, e.g. ``P0100``.
+
+        DTC codes use hexadecimal digit representation: raw value 0x0100
+        is displayed as P0100 (bits 15-14 = category, remaining 14 bits
+        formatted as 4 hex digits per SAE J2012 / ISO 15031-6).
+        """
         category = (self.raw_code >> 14) & 0x03
         prefix = ["P", "C", "B", "U"][category]
         number = self.raw_code & 0x3FFF
