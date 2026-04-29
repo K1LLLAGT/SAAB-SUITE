@@ -1,0 +1,19 @@
+name: LFS Guard
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lfs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Block large files
+        run: |
+          echo "Checking for files > 50MB..."
+          find . -type f -size +50M -not -path "./.git/*" -print -quit | \
+            grep -q . && { echo "Large file detected"; exit 1; } || echo "OK"

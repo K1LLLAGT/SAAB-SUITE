@@ -1,0 +1,22 @@
+name: Build SAAB-SUITE
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Run normalization
+        run: |
+          chmod +x normalize-saab-suite.sh
+          ./normalize-saab-suite.sh
+
+      - name: Verify tree
+        run: |
+          bash scripts/verify-tree.sh
