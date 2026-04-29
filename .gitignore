@@ -51,3 +51,4 @@ data/dumps/
 .coverage
 htmlcov/
 coverage.xml
+src/tech2win/**
