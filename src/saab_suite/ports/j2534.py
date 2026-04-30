@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
-from saab_suite.domain.can.frame import CanFrame
+if TYPE_CHECKING:
+    from saab_suite.domain.can.frame import CanFrame
 
 
 class IJ2534Device(Protocol):

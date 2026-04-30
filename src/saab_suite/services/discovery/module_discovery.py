@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.ecu.module import Module
-from saab_suite.domain.ecu.registry import ModuleRegistry
-from saab_suite.domain.vehicle.profile import VehicleProfile
-from saab_suite.ports.uds import IUdsClient
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.module import Module
+    from saab_suite.domain.ecu.registry import ModuleRegistry
+    from saab_suite.domain.vehicle.profile import VehicleProfile
+    from saab_suite.ports.uds import IUdsClient
 
 
 def discover_modules(

@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from uuid import UUID
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.vehicle.profile import VehicleProfile
-from saab_suite.kernel.types import MonotonicNs
+if TYPE_CHECKING:
+    from uuid import UUID
+
+    from saab_suite.domain.vehicle.profile import VehicleProfile
+    from saab_suite.kernel.types import MonotonicNs
 
 
 @dataclass(frozen=True, slots=True)

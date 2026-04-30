@@ -7,10 +7,14 @@ validation -- that is the central safety property. See ADR-0003 and
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from saab_suite.kernel.errors import FlashAborted
-from saab_suite.ports.audit_log import IAuditLog
-from saab_suite.ports.flash_target import IFlashTarget
-from saab_suite.services.sps.plan_validator import ValidatedFlashPlan
+
+if TYPE_CHECKING:
+    from saab_suite.ports.audit_log import IAuditLog
+    from saab_suite.ports.flash_target import IFlashTarget
+    from saab_suite.services.sps.plan_validator import ValidatedFlashPlan
 
 
 def execute(

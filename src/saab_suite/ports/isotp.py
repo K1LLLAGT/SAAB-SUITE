@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from saab_suite.domain.ecu.address import CanAddressPair
-from saab_suite.kernel.types import WirePayload
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.address import CanAddressPair
+    from saab_suite.kernel.types import WirePayload
 
 
 class IIsoTpTransport(Protocol):

@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.calibration.deliverable import Deliverable
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from saab_suite.domain.calibration.deliverable import Deliverable
 
 
 def parse_deliverable(xml_path: Path) -> Deliverable:

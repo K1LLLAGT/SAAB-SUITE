@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.frame import CanId
-from saab_suite.kernel.types import MonotonicNs
+if TYPE_CHECKING:
+    from saab_suite.domain.can.frame import CanId
+    from saab_suite.kernel.types import MonotonicNs
 
 
 @dataclass(frozen=True, slots=True)

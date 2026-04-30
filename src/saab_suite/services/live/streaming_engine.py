@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.signal import DecodedSignal
-from saab_suite.ports.can_source import ICanSource
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from saab_suite.domain.can.signal import DecodedSignal
+    from saab_suite.ports.can_source import ICanSource
 
 
 def stream(source: ICanSource, signals: Iterable[str]) -> Iterable[DecodedSignal]:

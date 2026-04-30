@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.vehicle.profile import VehicleProfile
-from saab_suite.kernel.errors import InterlockFailure
-from saab_suite.kernel.result import Result
-from saab_suite.services.sps.plan_builder import FlashPlan
+if TYPE_CHECKING:
+    from saab_suite.domain.vehicle.profile import VehicleProfile
+    from saab_suite.kernel.errors import InterlockFailure
+    from saab_suite.kernel.result import Result
+    from saab_suite.services.sps.plan_builder import FlashPlan
 
 
 @dataclass(frozen=True, slots=True)

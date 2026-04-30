@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.vehicle.profile import VehicleProfile
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from saab_suite.domain.vehicle.profile import VehicleProfile
 
 
 def predict_pump_duty(profile: VehicleProfile, slip_ratio: float, throttle_pct: float) -> float:

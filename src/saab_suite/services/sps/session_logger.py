@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-from uuid import UUID
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
+    from uuid import UUID
 
 
 def open_session(session_id: UUID, log_dir: Path) -> Path:

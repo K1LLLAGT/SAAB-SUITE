@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import NewType
+from typing import TYPE_CHECKING, NewType
 
-from saab_suite.domain.can.bus import CanBus
 from saab_suite.kernel.errors import InvalidCanFrameError
-from saab_suite.kernel.types import MonotonicNs
+
+if TYPE_CHECKING:
+    from saab_suite.domain.can.bus import CanBus
+    from saab_suite.kernel.types import MonotonicNs
 
 CanId = NewType("CanId", int)
 

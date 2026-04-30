@@ -3,16 +3,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
-from uuid import UUID
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.calibration.identity import CalibrationId
-from saab_suite.domain.ecu.module import ModuleKind
-from saab_suite.domain.vehicle.vin import Vin
-from saab_suite.kernel.types import MonotonicNs
+if TYPE_CHECKING:
+    from uuid import UUID
+
+    from saab_suite.domain.calibration.identity import CalibrationId
+    from saab_suite.domain.ecu.module import ModuleKind
+    from saab_suite.domain.vehicle.vin import Vin
+    from saab_suite.kernel.types import MonotonicNs
 
 
-class FlashSessionState(str, Enum):
+class FlashSessionState(StrEnum):
     """Flash session lifecycle state."""
 
     PENDING = "PENDING"

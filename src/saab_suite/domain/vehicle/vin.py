@@ -35,7 +35,7 @@ class Vin(str):
 
     __slots__ = ()
 
-    def __new__(cls, value: str) -> "Vin":
+    def __new__(cls, value: str) -> Vin:
         upper = value.upper()
         if not _VIN_PATTERN.match(upper):
             msg = f"Invalid VIN: {value!r} (must be 17 chars, no I/O/Q)"

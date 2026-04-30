@@ -2,14 +2,16 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.ecu.module import Module
-from saab_suite.ports.kwp2000 import IKwpClient
-from saab_suite.ports.uds import IUdsClient
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.module import Module
+    from saab_suite.ports.kwp2000 import IKwpClient
+    from saab_suite.ports.uds import IUdsClient
 
 
-class DetectedProtocol(str, Enum):
+class DetectedProtocol(StrEnum):
     """Diagnostic protocol detected for a module."""
 
     UDS = "UDS"

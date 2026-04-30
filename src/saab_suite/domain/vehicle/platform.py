@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 
-class Platform(str, Enum):
+class Platform(StrEnum):
     """Vehicle platform family."""
 
     GM_EPSILON = "GM_EPSILON"          # 9-3 (2003-2014), 9-5 (2010-2012)
@@ -14,7 +14,7 @@ class Platform(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class Market(str, Enum):
+class Market(StrEnum):
     """Sales market -- affects calibration and feature set."""
 
     NAO = "NAO"
@@ -23,7 +23,7 @@ class Market(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class BodyStyle(str, Enum):
+class BodyStyle(StrEnum):
     """Body style."""
 
     SEDAN = "SEDAN"
@@ -32,7 +32,7 @@ class BodyStyle(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class EngineCode(str, Enum):
+class EngineCode(StrEnum):
     """Engine code.
 
     SAAB designations are primary (B284R for the user's 9-3 XWD Aero).
@@ -66,7 +66,7 @@ _GM_CODES: dict[EngineCode, str] = {
 }
 
 
-class TransmissionCode(str, Enum):
+class TransmissionCode(StrEnum):
     """Transmission code."""
 
     F40 = "F40"
@@ -76,7 +76,7 @@ class TransmissionCode(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class Drivetrain(str, Enum):
+class Drivetrain(StrEnum):
     """Drivetrain configuration."""
 
     FWD = "FWD"
@@ -84,7 +84,7 @@ class Drivetrain(str, Enum):
     UNKNOWN = "UNKNOWN"
 
 
-class HaldexGen(str, Enum):
+class HaldexGen(StrEnum):
     """Haldex coupling generation. Only meaningful for XWD."""
 
     GEN3 = "GEN3"

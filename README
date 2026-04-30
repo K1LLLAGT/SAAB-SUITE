@@ -1,0 +1,313 @@
+`
+
+SAAB Suite
+A modern, modular diagnostic and flashing environment for SAAB 9‑3 / 9‑5 vehicles.
+
+SAAB Suite provides:
+- CAN bus communication (mock, virtual, remote TCP)
+- UDS & KWP2000 diagnostics
+- Tech2 emulator (Phase‑2)
+- SPS‑style flashing workflows
+- Calibration & firmware management
+- CAN replay, logging, and analysis
+- Full Python 3.13 support on Termux/Android, Linux, and Windows
+
+This project is designed for OEM‑grade reliability, clean architecture, and extensibility.
+`
+
+✨ Features
+
+- RemoteTcpBus — custom TCP CAN transport  
+- Pure‑Python stack — no Rust, no native wheels  
+- src/ layout — modern, maintainable project structure  
+- Adapters for CAN, ISO‑TP, UDS, KWP2000, J2534  
+- Domain models for ECUs, DTCs, calibration, firmware  
+- Runtime config system  
+- Replay engine for CAN logs  
+- Mock mode for offline development  
+
+---
+
+📦 Installation (Termux / Android)
+
+`
+pkg update
+pkg install python git
+git clone ~/saab-suite
+cd ~/saab-suite
+python3 -m venv .venv
+. .venv/bin/activate
+pip install python-can
+pip install -e .
+`
+
+---
+
+⚙️ Configuration
+
+Create:
+
+`
+~/.config/saab-suite/can.toml
+`
+
+Example:
+
+`toml
+mode = "remote"            # mock | virtual | remote
+remote_host = "192.168.1.50"
+remote_port = 5000
+virtual_channel = "vcan0"
+`
+
+---
+
+🚗 Quick Start
+
+Open CAN interface
+
+`python
+from saabsuite.adapters.can.remoteinterface import RemoteCanInterface
+
+iface = RemoteCanInterface()
+iface.open()
+print("CAN ready")
+`
+
+Send a frame
+
+`python
+from saabsuite.adapters.can.remoteinterface import CanFrame
+iface.send(CanFrame(0x7E0, b"\x01\x00"))
+`
+
+Receive a frame
+
+`python
+print(iface.recv(1.0))
+`
+
+---
+
+🧰 Diagnostics (UDS)
+
+`python
+from saab_suite.diag.uds.client import UdsClient
+uds = UdsClient()
+print(uds.readdataby_identifier(0xF190))  # VIN
+`
+
+---
+
+🧩 Directory Structure
+
+`
+saab-suite/
+├── src/saab_suite/
+│   ├── adapters/      # CAN, UDS, ISO-TP, J2534, replay
+│   ├── domain/        # Vehicle, ECU, DTC, calibration
+│   ├── kernel/        # Core types + errors
+│   ├── ports/         # Interfaces
+│   ├── runtime/       # Config + paths
+│   ├── remotetcpbus.py
+│   └── ...
+├── tools/
+└── vendor/
+`
+
+---
+
+🧪 Self‑Test
+
+`python
+from saabsuite.adapters.can.remoteinterface import RemoteCanInterface, CanFrame
+
+iface = RemoteCanInterface()
+iface.open()
+iface.send(CanFrame(0x7E0, b"\x01\x00"))
+print(iface.recv(1.0))
+`
+
+---
+
+✅ 2. docs/ Site (MkDocs or Sphinx)
+
+You can choose either.
+
+---
+
+📘 MkDocs Structure
+
+`
+docs/
+    index.md
+    installation.md
+    configuration.md
+    can_transport.md
+    diagnostics.md
+    tech2.md
+    sps.md
+    replay.md
+    developer/
+        architecture.md
+        adapters.md
+        domain.md
+        ports.md
+        coding_style.md
+mkdocs.yml
+`
+
+mkdocs.yml
+
+`
+site_name: SAAB Suite
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - CAN Transport: can_transport.md
+  - Diagnostics: diagnostics.md
+  - Tech2 Emulator: tech2.md
+  - SPS Flashing: sps.md
+  - CAN Replay: replay.md
+  - Developer Guide:
+      - Architecture: developer/architecture.md
+      - Adapters: developer/adapters.md
+      - Domain Model: developer/domain.md
+      - Ports & Interfaces: developer/ports.md
+      - Coding Style: developer/coding_style.md
+`
+
+---
+
+📚 Sphinx Structure
+
+`
+docs/
+    conf.py
+    index.rst
+    installation.rst
+    configuration.rst
+    can_transport.rst
+    diagnostics.rst
+    tech2.rst
+    sps.rst
+    replay.rst
+    developer/
+        architecture.rst
+        adapters.rst
+        domain.rst
+        ports.rst
+        coding_style.rst
+`
+
+---
+
+✅ 3. CLI Reference Manual
+
+Assuming your CLI entry point is saab:
+
+`
+saab
+├── can
+│   ├── open
+│   ├── send
+│   ├── recv
+│   └── test
+├── uds
+│   ├── read-did
+│   ├── session
+│   └── dtc
+├── tech2
+│   ├── start
+│   ├── dtc
+│   └── info
+├── sps
+│   ├── prepare
+│   ├── flash
+│   └── verify
+└── replay
+    ├── play
+    └── list
+`
+
+Example: saab can test
+
+`
+saab can test
+    Opens the CAN interface, sends a test frame, waits for a response.
+`
+
+Example: saab uds read-did 0xF190
+
+`
+Reads VIN from the target ECU.
+`
+
+---
+
+✅ 4. Developer Onboarding Guide
+
+🧭 Architecture Overview
+
+SAAB Suite uses a ports & adapters (hexagonal) architecture:
+
+- ports/ — abstract interfaces  
+- adapters/ — concrete implementations  
+- domain/ — pure business logic  
+- kernel/ — shared types  
+- runtime/ — configuration + environment  
+
+This keeps hardware, protocols, and UI layers isolated.
+
+---
+
+🛠️ Development Setup
+
+`
+git clone ~/saab-suite
+cd ~/saab-suite
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e .
+pip install pytest ruff mypy
+`
+
+---
+
+🧪 Running Tests
+
+`
+pytest -q
+`
+
+---
+
+🧹 Linting
+
+`
+ruff check .
+mypy src/
+`
+
+---
+
+🧩 Adding a New Adapter
+
+1. Create a class in adapters/<type>/
+2. Implement the corresponding interface in ports/
+3. Add configuration keys in runtime/
+4. Add tests in tests/adapters/
+
+---
+
+🔌 Adding a New UDS Service
+
+1. Add a method in diag/uds/services.py
+2. Add a wrapper in diag/uds/client.py
+3. Add tests
+4. Document it in docs/diagnostics.md
+
+---

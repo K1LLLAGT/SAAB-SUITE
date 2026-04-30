@@ -3,16 +3,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any
-from uuid import UUID
+from enum import StrEnum
+from typing import TYPE_CHECKING, Any
 
-from saab_suite.domain.vehicle.vin import Vin
-from saab_suite.kernel.types import MonotonicNs
+if TYPE_CHECKING:
+    from datetime import datetime
+    from uuid import UUID
+
+    from saab_suite.domain.vehicle.vin import Vin
+    from saab_suite.kernel.types import MonotonicNs
 
 
-class AuditAction(str, Enum):
+class AuditAction(StrEnum):
     """Auditable actions."""
 
     SESSION_OPEN = "SESSION_OPEN"
@@ -31,7 +33,7 @@ class AuditAction(str, Enum):
     SPS_RECOVERY = "SPS_RECOVERY"
 
 
-class AuditResult(str, Enum):
+class AuditResult(StrEnum):
     """Outcome of an audited action."""
 
     OK = "OK"

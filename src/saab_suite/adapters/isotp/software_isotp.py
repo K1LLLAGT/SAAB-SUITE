@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.ecu.address import CanAddressPair
+from typing import TYPE_CHECKING
+
 from saab_suite.kernel.errors import IsoTpError
-from saab_suite.kernel.types import WirePayload
-from saab_suite.ports.can_sink import ICanSink
-from saab_suite.ports.can_source import ICanSource
 from saab_suite.ports.isotp import IIsoTpTransport
+
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.address import CanAddressPair
+    from saab_suite.kernel.types import WirePayload
+    from saab_suite.ports.can_sink import ICanSink
+    from saab_suite.ports.can_source import ICanSource
 
 
 class SoftwareIsoTp(IIsoTpTransport):

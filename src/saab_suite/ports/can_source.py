@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from saab_suite.domain.can.bus import CanBus
-from saab_suite.domain.can.frame import CanFilter, CanFrame
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from saab_suite.domain.can.bus import CanBus
+    from saab_suite.domain.can.frame import CanFilter, CanFrame
 
 
 @dataclass(frozen=True, slots=True)

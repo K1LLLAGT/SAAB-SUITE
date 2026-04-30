@@ -1,0 +1,32 @@
+#!/data/data/com.termux/files/usr/bin/sh
+set -eu
+
+ROOT="$HOME/saab-suite"
+VENV="$ROOT/.venv"
+
+cd "$ROOT"
+
+echo "[BOOTSTRAP] Creating venv (PyPy)..."
+if [ ! -d "$VENV" ]; then
+    pypy3 -m venv "$VENV"
+fi
+
+. "$VENV/bin/activate"
+
+echo "[BOOTSTRAP] Installing saab-suite (editable)..."
+pip install -e .
+
+echo "[BOOTSTRAP] Verifying runtime directories..."
+python - << 'PYEOF'
+from saab_suite.runtime import paths
+
+print("[RUNTIME] root:", paths.root())
+print("[RUNTIME] logs:", paths.logs())
+print("[RUNTIME] replay:", paths.replay())
+print("[RUNTIME] sps:", paths.sps())
+print("[RUNTIME] vin:", paths.vin())
+print("[RUNTIME] plugins:", paths.plugins())
+print("[RUNTIME] cache:", paths.cache())
+PYEOF
+
+echo "[BOOTSTRAP] Done."

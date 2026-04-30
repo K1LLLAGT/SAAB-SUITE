@@ -1,0 +1,72 @@
+#!/data/data/com.termux/files/usr/bin/sh
+# SAAB Suite Termux Launcher
+# OEM‑grade, deterministic, venv‑aware, multi‑command router
+
+ROOT="$HOME/saab-suite"
+VENV="$ROOT/.venv"
+
+# Ensure venv exists
+if [ ! -d "$VENV" ]; then
+    echo "[ERROR] SAAB Suite venv not found at $VENV"
+    echo "Run: pypy3 -m venv $VENV && source $VENV/bin/activate && pip install -e ."
+    exit 1
+fi
+
+# Activate venv
+. "$VENV/bin/activate"
+
+# Move into project root
+cd "$ROOT"
+
+CMD="$1"
+shift || true
+
+case "$CMD" in
+    ""|help|-h|--help)
+        echo "SAAB Suite (Termux Edition)"
+        echo "Usage: saab-suite <command> [args]"
+        echo ""
+        echo "Commands:"
+        echo "  tui        Launch Textual TUI"
+        echo "  web        Launch Web UI"
+        echo "  replay     Run CAN replay"
+        echo "  service    Start Termux-native service mode"
+        echo "  diag       Diagnostic tools"
+        echo "  sps        SPS flash preparation wizard"
+        echo "  vin        VIN decoding tools"
+        echo "  plugins    Plugin management"
+        echo "  sniff      CAN sniffing tools"
+        echo ""
+        echo "Default: saab (CLI)"
+        ;;
+    tui)
+        exec saab-tui "$@"
+        ;;
+    web)
+        exec saab-web "$@"
+        ;;
+    replay)
+        exec saab replay "$@"
+        ;;
+    service)
+        exec saab service "$@"
+        ;;
+    diag)
+        exec saab diag "$@"
+        ;;
+    sps)
+        exec saab sps "$@"
+        ;;
+    vin)
+        exec saab vin "$@"
+        ;;
+    plugins)
+        exec saab plugins "$@"
+        ;;
+    sniff)
+        exec saab sniff "$@"
+        ;;
+    *)
+        exec saab "$CMD" "$@"
+        ;;
+esac

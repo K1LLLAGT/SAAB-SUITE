@@ -9,11 +9,13 @@ The ctypes import is deferred to keep this file import-clean on non-Windows.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from saab_suite.domain.can.frame import CanFrame
 from saab_suite.kernel.errors import J2534Error
 from saab_suite.ports.j2534 import IJ2534Device
+
+if TYPE_CHECKING:
+    from saab_suite.domain.can.frame import CanFrame
 
 
 class WindowsJ2534Device(IJ2534Device):

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.frame import CanId
+if TYPE_CHECKING:
+    from saab_suite.domain.can.frame import CanId
 
 
 @dataclass(frozen=True, slots=True)

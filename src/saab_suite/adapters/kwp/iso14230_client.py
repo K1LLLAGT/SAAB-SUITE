@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from saab_suite.kernel.errors import KwpError
-from saab_suite.kernel.types import WirePayload
 from saab_suite.ports.kwp2000 import IKwpClient
+
+if TYPE_CHECKING:
+    from saab_suite.kernel.types import WirePayload
 
 
 class Iso14230Client(IKwpClient):

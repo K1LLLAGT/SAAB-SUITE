@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.session.audit_event import AuditEvent
 from saab_suite.kernel.errors import StoreError
 from saab_suite.ports.audit_log import IAuditLog
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from saab_suite.domain.session.audit_event import AuditEvent
 
 
 class SqliteAuditLog(IAuditLog):

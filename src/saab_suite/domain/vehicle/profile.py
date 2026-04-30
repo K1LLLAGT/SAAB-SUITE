@@ -3,16 +3,25 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.ecu.module import ModuleKind
 from saab_suite.domain.vehicle.platform import (
-    BodyStyle, Drivetrain, EngineCode, HaldexGen, Market, Platform, TransmissionCode,
+    BodyStyle,
+    Drivetrain,
+    EngineCode,
+    HaldexGen,
+    Market,
+    Platform,
+    TransmissionCode,
 )
-from saab_suite.domain.vehicle.vin import Vin
+
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.module import ModuleKind
+    from saab_suite.domain.vehicle.vin import Vin
 
 
-class IssueSeverity(str, Enum):
+class IssueSeverity(StrEnum):
     """Severity of a known issue."""
 
     INFO = "INFO"

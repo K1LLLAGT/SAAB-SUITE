@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.bus import CanBus
-from saab_suite.domain.can.frame import CanFilter, CanFrame
 from saab_suite.ports.can_source import CanSourceStats, ICanSource
-from saab_suite.ports.j2534 import IJ2534Device
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from saab_suite.domain.can.bus import CanBus
+    from saab_suite.domain.can.frame import CanFilter, CanFrame
+    from saab_suite.ports.j2534 import IJ2534Device
 
 
 class J2534CanSource(ICanSource):

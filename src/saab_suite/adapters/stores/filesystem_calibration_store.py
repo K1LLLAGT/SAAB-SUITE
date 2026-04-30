@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.calibration.identity import CalibrationId
-from saab_suite.domain.vehicle.profile import VehicleProfile
 from saab_suite.kernel.errors import StoreError
 from saab_suite.ports.calibration_store import ICalibrationStore
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from saab_suite.domain.calibration.identity import CalibrationId
+    from saab_suite.domain.vehicle.profile import VehicleProfile
 
 
 class FilesystemCalibrationStore(ICalibrationStore):

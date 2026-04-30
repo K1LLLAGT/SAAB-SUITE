@@ -1,0 +1,27 @@
+#!/data/data/com.termux/files/usr/bin/sh
+set -eu
+
+DEV="${1:-/dev/ttyACM0}"
+IFACE="${2:-slcan0}"
+BITRATE="${3:-500000}"
+
+echo "[SLCAN] Device:  $DEV"
+echo "[SLCAN] IFACE:   $IFACE"
+echo "[SLCAN] Bitrate: $BITRATE"
+
+if ! command -v slcand >/dev/null 2>&1; then
+    echo "[ERROR] slcand not found. Install can-utils or equivalent."
+    exit 1
+fi
+
+if ! command -v ip >/dev/null 2>&1; then
+    echo "[ERROR] ip command not found."
+    exit 1
+fi
+
+slcand -o -s6 "$DEV" "$IFACE"
+ip link set up "$IFACE"
+
+echo "[SLCAN] $IFACE is up. Set:"
+echo "  export SAAB_CAN_BUSTYPE=socketcan"
+echo "  export SAAB_CAN_CHANNEL=$IFACE"

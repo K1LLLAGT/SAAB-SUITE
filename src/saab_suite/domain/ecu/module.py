@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.ecu.address import CanAddressPair
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.address import CanAddressPair
 
 
-class ModuleKind(str, Enum):
+class ModuleKind(StrEnum):
     """Canonical ECU module kinds across SAAB 9-3 / 9-5."""
 
     ECM = "ECM"

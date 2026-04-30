@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.vehicle.platform import Market, Platform
-from saab_suite.domain.vehicle.vin import Vin
+if TYPE_CHECKING:
+    from saab_suite.domain.vehicle.platform import Market, Platform
+    from saab_suite.domain.vehicle.vin import Vin
 
 
 @dataclass(frozen=True, slots=True)

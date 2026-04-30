@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class DtcSystem(str, Enum):
+class DtcSystem(StrEnum):
     """First character of the 5-char DTC."""
 
     POWERTRAIN = "P"
@@ -15,7 +15,7 @@ class DtcSystem(str, Enum):
     NETWORK = "U"
 
 
-class DtcKind(str, Enum):
+class DtcKind(StrEnum):
     """Second character -- generic vs manufacturer-specific."""
 
     GENERIC = "0"
@@ -37,7 +37,7 @@ class Dtc:
         return f"{self.system.value}{self.kind.value}{self.code:03X}"
 
     @classmethod
-    def from_uds_bytes(cls, raw: bytes) -> "Dtc":
+    def from_uds_bytes(cls, raw: bytes) -> Dtc:
         """Parse a UDS 3-byte DTC (high, mid, low)."""
         if len(raw) != 3:
             msg = f"Expected 3 bytes, got {len(raw)}"

@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.bus import CanBus
-from saab_suite.domain.can.frame import CanFilter, CanFrame
 from saab_suite.ports.can_source import CanSourceStats, ICanSource
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from saab_suite.domain.can.bus import CanBus
+    from saab_suite.domain.can.frame import CanFilter, CanFrame
 
 
 class MockCanSource(ICanSource):

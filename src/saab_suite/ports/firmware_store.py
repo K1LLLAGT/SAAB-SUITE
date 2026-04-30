@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from saab_suite.domain.calibration.identity import CalibrationId
-from saab_suite.domain.firmware.image import FirmwareImage
-from saab_suite.domain.firmware.manifest import FirmwareManifest
+if TYPE_CHECKING:
+    from saab_suite.domain.calibration.identity import CalibrationId
+    from saab_suite.domain.firmware.image import FirmwareImage
+    from saab_suite.domain.firmware.manifest import FirmwareManifest
 
 
 class IFirmwareStore(Protocol):

@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.ecu.module import Module, ModuleKind
+if TYPE_CHECKING:
+    from saab_suite.domain.ecu.module import Module, ModuleKind
 
 
 @dataclass(frozen=True, slots=True)

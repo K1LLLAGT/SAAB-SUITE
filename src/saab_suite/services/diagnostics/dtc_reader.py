@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.dtc.code import Dtc
-from saab_suite.domain.ecu.module import Module
-from saab_suite.ports.kwp2000 import IKwpClient
-from saab_suite.ports.uds import IUdsClient
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from saab_suite.domain.dtc.code import Dtc
+    from saab_suite.domain.ecu.module import Module
+    from saab_suite.ports.kwp2000 import IKwpClient
+    from saab_suite.ports.uds import IUdsClient
 
 
 def read_dtcs(

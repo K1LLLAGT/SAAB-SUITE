@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from saab_suite.domain.firmware.image import FirmwareImage
+if TYPE_CHECKING:
+    from saab_suite.domain.firmware.image import FirmwareImage
 
 
 class IFlashTarget(Protocol):

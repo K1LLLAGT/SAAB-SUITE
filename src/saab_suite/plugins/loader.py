@@ -1,17 +1,34 @@
-"""Discover plugins via importlib.metadata entry points."""
-
 from __future__ import annotations
 
-from importlib.metadata import entry_points
+import importlib
+import sys
+from pathlib import Path
+from typing import List
+
+from saab_suite.plugins.base import Plugin
+from saab_suite.runtime import paths
 
 
-def discover_can_sources() -> dict[str, type]:
-    """Discover ICanSource implementations registered via entry points."""
-    eps = entry_points(group="saab_suite.can_source")
-    return {ep.name: ep.load() for ep in eps}
+def load_plugins() -> List[Plugin]:
+    plugins: List[Plugin] = []
 
+    # 1. Load entry point plugins
+    try:
+        import pkg_resources
+        for ep in pkg_resources.iter_entry_points("saab_suite.plugins"):
+            plugin_cls = ep.load()
+            plugins.append(plugin_cls())
+    except Exception:
+        pass
 
-def discover_flash_targets() -> dict[str, type]:
-    """Discover IFlashTarget implementations registered via entry points."""
-    eps = entry_points(group="saab_suite.flash_target")
-    return {ep.name: ep.load() for ep in eps}
+    # 2. Load runtime plugins
+    runtime_dir = paths.plugins()
+    sys.path.insert(0, str(runtime_dir))
+
+    for file in runtime_dir.glob("*.py"):
+        mod_name = file.stem
+        mod = importlib.import_module(mod_name)
+        if hasattr(mod, "PluginImpl"):
+            plugins.append(mod.PluginImpl())
+
+    return plugins

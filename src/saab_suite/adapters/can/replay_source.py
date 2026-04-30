@@ -1,37 +1,50 @@
-"""ReplayCanSource -- read frames from an NDJSON log."""
-
 from __future__ import annotations
 
-from collections.abc import Iterator
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterable, Iterator
 
-from saab_suite.domain.can.bus import CanBus
-from saab_suite.domain.can.frame import CanFilter, CanFrame
-from saab_suite.ports.can_source import CanSourceStats, ICanSource
+from saab_suite.runtime import paths
 
 
-class ReplayCanSource(ICanSource):
-    """Replay frames from an NDJSON log file. One frame per line."""
+@dataclass
+class ReplayFrame:
+    timestamp: float
+    can_id: int
+    data: bytes
 
-    def __init__(self, path: Path, speed: float = 1.0) -> None:
-        self.path = path
-        self.speed = speed
 
-    def open(self, bus: CanBus, bitrate: int) -> None:
-        raise NotImplementedError("replay adapter not yet implemented")
+class ReplayCanSource:
+    """Simple CAN replay source reading from a line-based log file.
 
-    def close(self) -> None:
-        raise NotImplementedError
+    Format (per line):
+        <timestamp> <hex_id> <hex_bytes>
 
-    def read(self, timeout_ms: int) -> CanFrame | None:
-        raise NotImplementedError
+    Example:
+        0.000 18DAF110 0227103B
+    """
 
-    def iter_frames(self) -> Iterator[CanFrame]:
-        raise NotImplementedError
+    def __init__(self, file: Path) -> None:
+        self._file = file
 
-    def filter(self, mask: CanFilter) -> None:
-        raise NotImplementedError
+    @classmethod
+    def from_name(cls, name: str) -> "ReplayCanSource":
+        """Resolve a replay file from the runtime replay directory."""
+        base = paths.replay()
+        return cls(base / name)
 
-    @property
-    def stats(self) -> CanSourceStats:
-        raise NotImplementedError
+    def frames(self) -> Iterator[ReplayFrame]:
+        with self._file.open("r", encoding="utf8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                ts_s, can_id_s, data_s = line.split(maxsplit=2)
+                yield ReplayFrame(
+                    timestamp=float(ts_s),
+                    can_id=int(can_id_s, 16),
+                    data=bytes.fromhex(data_s),
+                )
+
+    def __iter__(self) -> Iterable[ReplayFrame]:
+        return self.frames()

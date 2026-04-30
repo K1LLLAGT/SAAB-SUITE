@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from saab_suite.ports.can_source import ICanSource
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from saab_suite.ports.can_source import ICanSource
 
 
 def from_file(path: Path, speed: float = 1.0) -> ICanSource:

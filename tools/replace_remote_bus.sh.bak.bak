@@ -1,0 +1,24 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -euo pipefail
+
+ROOT="$HOME/saab-suite"
+
+echo "Scanning $ROOT recursively…"
+
+# 1. Replace import lines
+grep -Rl "from saab_suite.remote_tcp_bus import RemoteTcpBus" "$ROOT" | while read -r file; do
+    echo "Patching import in: $file"
+    sed -i.bak \
+        's|from saab_suite.remote_tcp_bus import RemoteTcpBus|from saab_suite.remote_tcp_bus import RemoteTcpBus|g' \
+        "$file"
+done
+
+# 2. Replace constructor calls
+grep -Rl "RemoteBus(" "$ROOT" | while read -r file; do
+    echo "Patching constructor in: $file"
+    sed -i.bak \
+        's|RemoteBus([^)]*)|RemoteTcpBus(host="192.168.1.50", port=5000, timeout=1.0)|g' \
+        "$file"
+done
+
+echo "Done. Backup files (*.bak) preserved for review."

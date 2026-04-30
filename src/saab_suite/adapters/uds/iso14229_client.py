@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from saab_suite.kernel.errors import UdsError
-from saab_suite.kernel.types import WirePayload
-from saab_suite.ports.isotp import IIsoTpTransport
 from saab_suite.ports.uds import IUdsClient
+
+if TYPE_CHECKING:
+    from saab_suite.kernel.types import WirePayload
+    from saab_suite.ports.isotp import IIsoTpTransport
 
 
 class Iso14229Client(IUdsClient):

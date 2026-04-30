@@ -6,10 +6,13 @@ that imports cantools.
 
 from __future__ import annotations
 
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from saab_suite.domain.can.frame import CanId
-from saab_suite.domain.can.signal import SignalDescriptor
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from saab_suite.domain.can.frame import CanId
+    from saab_suite.domain.can.signal import SignalDescriptor
 
 
 class DbcIndex:

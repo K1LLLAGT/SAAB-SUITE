@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from saab_suite.kernel.errors import AdapterError
-from saab_suite.ports.uds import IUdsClient
 from saab_suite.ports.vehicle_state import IVehicleStateProvider, VehicleState
+
+if TYPE_CHECKING:
+    from saab_suite.ports.uds import IUdsClient
 
 
 class ObdStateProvider(IVehicleStateProvider):
