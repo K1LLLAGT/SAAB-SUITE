@@ -1,53 +1,19 @@
-from __future__ import annotations
-
-import os
 from pathlib import Path
+import os
 
-_TERMUX_DEFAULT_ROOT = Path.home() / "saab-runtime"
+def _default_base() -> Path:
+    env = os.environ.get("SAAB_SUITE_RUNTIME")
+    if env:
+        return Path(env).expanduser()
+    return Path.home() / ".saab-suite" / "runtime"
 
+BASE_DIR = _default_base()
 
-def root() -> Path:
-    """Return the runtime root directory.
+LOG_DIR = BASE_DIR / "logs"
+CACHE_DIR = BASE_DIR / "cache"
+BACKUP_DIR = BASE_DIR / "backups"
+LOCK_DIR = BASE_DIR / "locks"
 
-    Overridable via SAAB_RUNTIME_ROOT.
-    """
-    override = os.getenv("SAAB_RUNTIME_ROOT")
-    base = Path(override).expanduser() if override else _TERMUX_DEFAULT_ROOT
-    base.mkdir(parents=True, exist_ok=True)
-    return base
-
-
-def logs() -> Path:
-    path = root() / "logs"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def replay() -> Path:
-    path = root() / "replay"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def sps() -> Path:
-    path = root() / "sps"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def vin() -> Path:
-    path = root() / "vin"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def plugins() -> Path:
-    path = root() / "plugins"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
-
-
-def cache() -> Path:
-    path = root() / "cache"
-    path.mkdir(parents=True, exist_ok=True)
-    return path
+def ensure_dirs() -> None:
+    for d in (LOG_DIR, CACHE_DIR, BACKUP_DIR, LOCK_DIR):
+        d.mkdir(parents=True, exist_ok=True)

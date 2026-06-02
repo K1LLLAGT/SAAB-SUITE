@@ -4,3 +4,16 @@
 *.iso
 vm/*.vmdk
 vm/*.nvram
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Backups
+*.bak
+
+# Runtime
+runtime/cache/
+runtime/logs/
+runtime/backups/

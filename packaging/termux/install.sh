@@ -1,14 +1,14 @@
-#!/data/data/com.termux/files/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-echo "[*] Updating packages..."
-pkg update -y && pkg upgrade -y
+PREFIX_DIR="${PREFIX:-/data/data/com.termux/files/usr}"
+APP_DIR="$PREFIX_DIR/share/saab-suite"
 
-echo "[*] Installing system deps..."
-pkg install -y python git rust libffi openssl clang
+mkdir -p "$APP_DIR"
+cp -r . "$APP_DIR"
 
-echo "[*] Installing saab-suite (no hardware extras under Termux)..."
-pip install --upgrade pip
-pip install -e "$(dirname "$0")/../.."[tui,web,dev]
+if ! grep -q "SAAB_SUITE_RUNTIME" "$HOME/.bashrc" 2>/dev/null; then
+  echo 'export SAAB_SUITE_RUNTIME="$HOME/.saab-suite/runtime"' >> "$HOME/.bashrc"
+fi
 
-echo "[*] Done. Try: saab version"
+echo "Installed SAAB-SUITE to $APP_DIR"
