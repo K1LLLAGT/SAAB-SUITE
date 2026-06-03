@@ -12,7 +12,7 @@
 | AppImage (Linux) | linuxdeploy | `SAAB-Suite-*-x86_64.AppImage`           |
 | Termux (Android) | shell       | `packaging/termux/install.sh`            |
 | Windows (VM)     | Inno Setup  | `SAAB-Suite-*-windows-companion.exe`     |
-| Docker           | docker      | `saab-suite:runtime` / `saab-suite:dev`  |
+| Docker           | docker      | `saab:runtime` / `saab:dev`  |
 
 ## Versioning
 

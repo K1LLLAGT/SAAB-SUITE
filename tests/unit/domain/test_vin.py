@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from saab_suite.domain.vehicle.vin import Vin
-from saab_suite.kernel.errors import InvalidVinError
+from SAAB_SUITE.domain.vehicle.vin import Vin
+from SAAB_SUITE.kernel.errors import InvalidVinError
 
 
 def test_vin_uppercases() -> None:

@@ -15,7 +15,7 @@ def main(workflow_name: str):
     data = json.loads(wf_file.read_text())
     desc = data.get("description", f"Workflow {workflow_name}")
 
-    pkg_name = f"saab-suite-workflow-{workflow_name}"
+    pkg_name = f"saab-workflow-{workflow_name}"
     mod_name = f"saab_suite_workflow_{workflow_name}"
     base = PLUGINS_DIR / pkg_name
     src_dir = base / "src" / mod_name
@@ -25,8 +25,8 @@ def main(workflow_name: str):
     (src_dir / "plugin.py").write_text(
         textwrap.dedent(
             f"""
-            from SAAB-SUITE.plugins.base import BasePlugin
-            from SAAB-SUITE.services.workflow.engine import run_workflow
+            from SAAB_SUITE.plugins.base import BasePlugin
+            from SAAB_SUITE.services.workflow.engine import run_workflow
 
             class Plugin(BasePlugin):
                 name = "workflow-{workflow_name}"
@@ -44,7 +44,7 @@ def main(workflow_name: str):
             [project]
             name = "{pkg_name}"
             version = "0.1.0"
-            dependencies = ["SAAB-SUITE"]
+            dependencies = ["SAAB_SUITE"]
 
             [project.entry-points."saab_suite.plugins"]
             workflow_{workflow_name} = "{mod_name}.plugin:Plugin"

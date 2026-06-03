@@ -2,7 +2,7 @@
 from pathlib import Path
 import ast
 
-ROOT = Path("src/SAAB-SUITE")
+ROOT = Path("src/SAAB_SUITE")
 
 missing = []
 

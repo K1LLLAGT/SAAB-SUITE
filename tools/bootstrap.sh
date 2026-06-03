@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "=============================================="
-echo " SAAB-SUITE BOOTSTRAP: FULL SYSTEM CHECK"
+echo " SAAB_SUITE BOOTSTRAP: FULL SYSTEM CHECK"
 echo "=============================================="
 
 echo "[1/5] Cleanup..."
@@ -21,5 +21,5 @@ echo "[5/5] Running tests..."
 tools/test.sh
 
 echo "=============================================="
-echo " ALL CHECKS PASSED — SAAB-SUITE IS HEALTHY"
+echo " ALL CHECKS PASSED — SAAB_SUITE IS HEALTHY"
 echo "=============================================="

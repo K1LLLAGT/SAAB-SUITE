@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Print a one-page diagnostic of the host environment.
 set -euo pipefail
-echo "=== saab-suite host diagnostic ==="
+echo "=== saab host diagnostic ==="
 echo "uname:       $(uname -a)"
 echo "python:      $(python3 --version 2>&1)"
 echo "pip:         $(pip --version 2>&1)"

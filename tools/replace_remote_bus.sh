@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
 
-ROOT="$HOME/saab-suite"
+ROOT="$HOME/saab"
 
 echo "Scanning $ROOT for Python files only…"
 

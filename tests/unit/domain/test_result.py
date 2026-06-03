@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from saab_suite.kernel.result import Err, Ok
+from SAAB_SUITE.kernel.result import Err, Ok
 
 
 def test_ok_unwrap() -> None:

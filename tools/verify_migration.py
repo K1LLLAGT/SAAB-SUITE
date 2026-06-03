@@ -13,8 +13,8 @@ def check_git():
 
 def check_import():
     try:
-        __import__("SAAB-SUITE")
-        print("[OK] Import SAAB-SUITE")
+        __import__("SAAB_SUITE")
+        print("[OK] Import SAAB_SUITE")
     except Exception as e:
         print("[FAIL] Import error:", e)
         sys.exit(1)

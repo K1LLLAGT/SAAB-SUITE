@@ -61,7 +61,7 @@ MAPPING: list[tuple[str, str]] = [
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--source", required=True, help="Path to legacy ~/SAAB-DIAGNOSTIC-AND-TUNE tree")
-    parser.add_argument("--dest", required=True, help="Path to new saab-suite tree (must already exist)")
+    parser.add_argument("--dest", required=True, help="Path to new saab tree (must already exist)")
     parser.add_argument("--force", action="store_true", help="Overwrite existing destination paths")
     parser.add_argument("--dry-run", action="store_true", help="Print the plan; copy nothing")
     args = parser.parse_args()

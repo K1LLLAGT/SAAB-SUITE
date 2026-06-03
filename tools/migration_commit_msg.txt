@@ -1,6 +1,6 @@
-Migrate core package from `saab_suite` to `SAAB-SUITE`
+Migrate core package from `saab_suite` to `SAAB_SUITE`
 
 - Remove legacy src/saab_suite package
-- Add new src/SAAB-SUITE hexagonal layout
+- Add new src/SAAB_SUITE hexagonal layout
 - Update runtime paths and interfaces
 - Preserve plugins, tests, and packaging structure

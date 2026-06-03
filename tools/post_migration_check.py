@@ -5,10 +5,10 @@ import pkg_resources
 
 def check_imports():
     modules = [
-        "SAAB-SUITE",
-        "SAAB-SUITE.interfaces.cli.main",
-        "SAAB-SUITE.services.vin.decoder",
-        "SAAB-SUITE.services.sps.plan_builder",
+        "SAAB_SUITE",
+        "SAAB_SUITE.interfaces.cli.main",
+        "SAAB_SUITE.services.vin.decoder",
+        "SAAB_SUITE.services.sps.plan_builder",
     ]
     for m in modules:
         import_module(m)
@@ -21,19 +21,19 @@ def check_plugins():
         ep.load()
 
 def check_cli():
-    subprocess.run(["saab-suite", "--help"], check=True, capture_output=True)
-    subprocess.run(["saab-suite", "diag", "--help"], check=True, capture_output=True)
+    subprocess.run(["saab", "--help"], check=True, capture_output=True)
+    subprocess.run(["saab", "diag", "--help"], check=True, capture_output=True)
     print("[OK] CLI entrypoints")
 
 def check_runtime():
-    from SAAB-SUITE.runtime import paths
+    from SAAB_SUITE.runtime import paths
     for p in [paths.LOG_DIR, paths.CACHE_DIR, paths.BACKUP_DIR, paths.LOCK_DIR]:
         print("[OK] Runtime path:", p)
     paths.ensure_dirs()
 
 def check_metadata():
     import importlib.metadata as md
-    print("[OK] Version:", md.version("SAAB-SUITE"))
+    print("[OK] Version:", md.version("SAAB_SUITE"))
 
 if __name__ == "__main__":
     check_imports()

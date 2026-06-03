@@ -1,0 +1,29 @@
+"""Protocol detection -- UDS / KWP2000 / GMLAN."""
+
+from __future__ import annotations
+
+from enum import StrEnum
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from SAAB_SUITE.domain.ecu.module import Module
+    from SAAB_SUITE.ports.kwp2000 import IKwpClient
+    from SAAB_SUITE.ports.uds import IUdsClient
+
+
+class DetectedProtocol(StrEnum):
+    """Diagnostic protocol detected for a module."""
+
+    UDS = "UDS"
+    KWP2000 = "KWP2000"
+    GMLAN = "GMLAN"
+    UNKNOWN = "UNKNOWN"
+
+
+def detect(
+    module: Module,
+    uds: IUdsClient | None,
+    kwp: IKwpClient | None,
+) -> DetectedProtocol:
+    """Detect which diagnostic protocol the module speaks."""
+    raise NotImplementedError("protocol detection not yet implemented")

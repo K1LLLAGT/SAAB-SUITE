@@ -19,12 +19,12 @@ the corresponding `Protocol`, and registers into `plugins/registry.py`.
 
 ## First-party plugins
 
-- `saab-suite-trionic` -- Trionic T7/T8 flash targets, tuning screens
-- `saab-suite-haldex`  -- Gen4 Haldex models, predictive failure
-- `saab-suite-af40`    -- AF40-6 transmission diagnostics
+- `saab-trionic` -- Trionic T7/T8 flash targets, tuning screens
+- `saab-haldex`  -- Gen4 Haldex models, predictive failure
+- `saab-af40`    -- AF40-6 transmission diagnostics
 
 ## Contract guarantees
 
 - Plugins see only `saab_suite.domain`, `saab_suite.ports`, `saab_suite.plugins.contracts`.
 - Plugins **must not** import `saab_suite.adapters` or `saab_suite.interfaces`.
-- Plugins declare `requires-saab-suite = ">=1.0,<2.0"` and are version-checked at load.
+- Plugins declare `requires-saab = ">=1.0,<2.0"` and are version-checked at load.

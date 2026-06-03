@@ -2,11 +2,11 @@
 set -euo pipefail
 
 echo "=============================================="
-echo "   SAAB-SUITE + WORKFLOW SUPER-MERGE SCRIPT"
+echo "   SAAB_SUITE + WORKFLOW SUPER-MERGE SCRIPT"
 echo "=============================================="
 
 # CONFIG
-SUITE_REPO="https://github.com/K1LLLAGT/SAAB-SUITE.git"
+SUITE_REPO="https://github.com/K1LLLAGT/SAAB_SUITE.git"
 WORKFLOW_REPO="https://github.com/K1LLLAGT/saab-diagnostic-workflow.git"
 MERGE_DIR="$HOME/saab_merge_temp"
 
@@ -15,9 +15,9 @@ rm -rf "$MERGE_DIR"
 mkdir -p "$MERGE_DIR"
 cd "$MERGE_DIR"
 
-echo "[*] Cloning SAAB-SUITE..."
-git clone "$SUITE_REPO" SAAB-SUITE
-cd SAAB-SUITE
+echo "[*] Cloning SAAB_SUITE..."
+git clone "$SUITE_REPO" SAAB_SUITE
+cd SAAB_SUITE
 
 echo "[*] Adding workflow repo as remote..."
 git remote add workflow "$WORKFLOW_REPO"
@@ -33,9 +33,9 @@ if [ -d workflow/docs ]; then
 fi
 
 echo "[*] Moving workflow code into services/workflow..."
-mkdir -p src/SAAB-SUITE/services/workflow
+mkdir -p src/SAAB_SUITE/services/workflow
 if [ -d workflow/src ]; then
-    mv workflow/src/* src/SAAB-SUITE/services/workflow/
+    mv workflow/src/* src/SAAB_SUITE/services/workflow/
 fi
 
 echo "[*] Moving workflow assets into runtime/workflows..."
@@ -47,25 +47,25 @@ fi
 echo "[*] Removing temporary workflow directory..."
 rm -rf workflow
 
-echo "[*] Updating imports from 'saab_diagnostic_workflow' to 'SAAB-SUITE.services.workflow'..."
-grep -rl "saab_diagnostic_workflow" src/SAAB-SUITE/services/workflow | while read -r file; do
-    sed -i 's/saab_diagnostic_workflow/SAAB-SUITE.services.workflow/g' "$file"
+echo "[*] Updating imports from 'saab_diagnostic_workflow' to 'SAAB_SUITE.services.workflow'..."
+grep -rl "saab_diagnostic_workflow" src/SAAB_SUITE/services/workflow | while read -r file; do
+    sed -i 's/saab_diagnostic_workflow/SAAB_SUITE.services.workflow/g' "$file"
 done
 
 echo "[*] Updating CLI to include workflow commands..."
-CLI_FILE="src/SAAB-SUITE/interfaces/cli/main.py"
+CLI_FILE="src/SAAB_SUITE/interfaces/cli/main.py"
 if ! grep -q "workflow" "$CLI_FILE"; then
     cat >> "$CLI_FILE" << 'EOC'
 
 # Workflow CLI integration
-from SAAB-SUITE.services.workflow import cli as workflow_cmd
+from SAAB_SUITE.services.workflow import cli as workflow_cmd
 app.add_typer(workflow_cmd.app, name="workflow")
 EOC
 fi
 
 echo "[*] Updating pyproject.toml to include workflow package..."
-if ! grep -q "SAAB-SUITE.services.workflow" pyproject.toml; then
-    sed -i '/packages = \[/a\    "SAAB-SUITE.services.workflow",' pyproject.toml
+if ! grep -q "SAAB_SUITE.services.workflow" pyproject.toml; then
+    sed -i '/packages = \[/a\    "SAAB_SUITE.services.workflow",' pyproject.toml
 fi
 
 echo "[*] Updating documentation index..."
@@ -91,12 +91,12 @@ if git diff --cached --quiet; then
     echo "No changes to commit."
 else
     echo "[*] Committing merge..."
-    git commit -m "Merge saab-diagnostic-workflow into SAAB-SUITE (automated super-merge)"
+    git commit -m "Merge saab-diagnostic-workflow into SAAB_SUITE (automated super-merge)"
 
     echo "[*] Pushing to GitHub..."
     git push
 fi
 
 echo "=============================================="
-echo " SUPER-MERGE COMPLETE — WORKFLOW IS NOW PART OF SAAB-SUITE"
+echo " SUPER-MERGE COMPLETE — WORKFLOW IS NOW PART OF SAAB_SUITE"
 echo "=============================================="

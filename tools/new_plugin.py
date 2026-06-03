@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGINS_DIR = ROOT / "plugins"
 
 def main(name: str):
-    pkg_name = f"saab-suite-{name}"
+    pkg_name = f"saab-{name}"
     mod_name = f"saab_suite_{name}"
     base = PLUGINS_DIR / pkg_name
     src_dir = base / "src" / mod_name
@@ -16,7 +16,7 @@ def main(name: str):
     (src_dir / "plugin.py").write_text(
         textwrap.dedent(
             f"""
-            from SAAB-SUITE.plugins.base import BasePlugin
+            from SAAB_SUITE.plugins.base import BasePlugin
 
             class Plugin(BasePlugin):
                 name = "{name}"
@@ -34,7 +34,7 @@ def main(name: str):
             [project]
             name = "{pkg_name}"
             version = "0.1.0"
-            dependencies = ["SAAB-SUITE"]
+            dependencies = ["SAAB_SUITE"]
 
             [project.entry-points."saab_suite.plugins"]
             {name} = "{mod_name}.plugin:Plugin"

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.dtc.code import Dtc, DtcKind, DtcSystem
+from SAAB_SUITE.domain.dtc.code import Dtc, DtcKind, DtcSystem
 
 
 def test_dtc_render() -> None:

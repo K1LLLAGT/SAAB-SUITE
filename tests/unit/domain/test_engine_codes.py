@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from saab_suite.domain.vehicle.platform import EngineCode
+from SAAB_SUITE.domain.vehicle.platform import EngineCode
 
 
 def test_b284r_gm_code_is_a28ner() -> None:

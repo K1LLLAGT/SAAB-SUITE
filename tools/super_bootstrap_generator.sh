@@ -2,17 +2,17 @@
 set -euo pipefail
 
 echo "=============================================="
-echo "  SAAB-SUITE SUPER-BOOTSTRAP GENERATOR"
+echo "  SAAB_SUITE SUPER-BOOTSTRAP GENERATOR"
 echo "=============================================="
 
 # Ensure directories exist
-mkdir -p docs docs/architecture packaging/termux .github/workflows src/SAAB-SUITE/runtime tools plugins
+mkdir -p docs docs/architecture packaging/termux .github/workflows src/SAAB_SUITE/runtime tools plugins
 
 ###############################################
 # 1. Repo Audit Report
 ###############################################
 cat > docs/repo_audit.md << 'EOD'
-# SAAB-SUITE Repo Audit
+# SAAB_SUITE Repo Audit
 
 ## Strengths
 - Hexagonal architecture
@@ -54,9 +54,9 @@ EOD
 # 3. README.md
 ###############################################
 cat > README.md << 'EOD'
-# SAAB-SUITE
+# SAAB_SUITE
 
-SAAB-SUITE is a hexagonally-architected diagnostic and flashing suite for Saab vehicles.
+SAAB_SUITE is a hexagonally-architected diagnostic and flashing suite for Saab vehicles.
 
 ## Features
 - CAN / UDS / KWP / J2534
@@ -67,12 +67,12 @@ SAAB-SUITE is a hexagonally-architected diagnostic and flashing suite for Saab v
 
 ## Quick Start
 
-    git clone <YOUR_REPO_URL> SAAB-SUITE
-    cd SAAB-SUITE
+    git clone <YOUR_REPO_URL> SAAB_SUITE
+    cd SAAB_SUITE
     python -m venv .venv
     source .venv/bin/activate
     pip install -e .
-    saab-suite --help
+    saab --help
 
 ## Development
 
@@ -96,14 +96,14 @@ cat > docs/developer_onboarding.md << 'EOD'
 
 ## Setup
 
-    git clone <YOUR_REPO_URL> SAAB-SUITE
-    cd SAAB-SUITE
+    git clone <YOUR_REPO_URL> SAAB_SUITE
+    cd SAAB_SUITE
     python -m venv .venv
     source .venv/bin/activate
     pip install -e ".[dev]"
 
 ## Layout
-- src/SAAB-SUITE/
+- src/SAAB_SUITE/
 - plugins/
 - runtime/
 - vendor/
@@ -121,7 +121,7 @@ EOD
 ###############################################
 # 5. Termux Runtime Layout
 ###############################################
-cat > src/SAAB-SUITE/runtime/paths.py << 'EOD'
+cat > src/SAAB_SUITE/runtime/paths.py << 'EOD'
 from pathlib import Path
 import os
 
@@ -129,7 +129,7 @@ def _default_base() -> Path:
     env = os.environ.get("SAAB_SUITE_RUNTIME")
     if env:
         return Path(env).expanduser()
-    return Path.home() / ".saab-suite" / "runtime"
+    return Path.home() / ".saab" / "runtime"
 
 BASE_DIR = _default_base()
 
@@ -148,16 +148,16 @@ cat > packaging/termux/install.sh << 'EOD'
 set -euo pipefail
 
 PREFIX_DIR="${PREFIX:-/data/data/com.termux/files/usr}"
-APP_DIR="$PREFIX_DIR/share/saab-suite"
+APP_DIR="$PREFIX_DIR/share/saab"
 
 mkdir -p "$APP_DIR"
 cp -r . "$APP_DIR"
 
 if ! grep -q "SAAB_SUITE_RUNTIME" "$HOME/.bashrc"; then
-  echo 'export SAAB_SUITE_RUNTIME="$HOME/.saab-suite/runtime"' >> "$HOME/.bashrc"
+  echo 'export SAAB_SUITE_RUNTIME="$HOME/.saab/runtime"' >> "$HOME/.bashrc"
 fi
 
-echo "Installed SAAB-SUITE to $APP_DIR"
+echo "Installed SAAB_SUITE to $APP_DIR"
 EOD
 chmod +x packaging/termux/install.sh
 
@@ -203,7 +203,7 @@ EOD
 ###############################################
 # 7. Architecture Diagram
 ###############################################
-cat > docs/architecture/saab-suite-architecture.mmd << 'EOD'
+cat > docs/architecture/saab-architecture.mmd << 'EOD'
 graph TD
   Interfaces --> Services
   Services --> Domain
@@ -214,12 +214,12 @@ EOD
 ###############################################
 # 8. Unified CLI Entrypoint
 ###############################################
-mkdir -p src/SAAB-SUITE/interfaces/cli
+mkdir -p src/SAAB_SUITE/interfaces/cli
 
-cat > src/SAAB-SUITE/interfaces/cli/main.py << 'EOD'
+cat > src/SAAB_SUITE/interfaces/cli/main.py << 'EOD'
 import typer
 
-app = typer.Typer(help="SAAB-SUITE CLI")
+app = typer.Typer(help="SAAB_SUITE CLI")
 
 from .commands import (
     can as can_cmd,
@@ -260,7 +260,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGINS_DIR = ROOT / "plugins"
 
 def main(name: str):
-    pkg_name = f"saab-suite-{name}"
+    pkg_name = f"saab-{name}"
     mod_name = f"saab_suite_{name}"
     base = PLUGINS_DIR / pkg_name
     src_dir = base / "src" / mod_name
@@ -270,7 +270,7 @@ def main(name: str):
     (src_dir / "plugin.py").write_text(
         textwrap.dedent(
             f"""
-            from SAAB-SUITE.plugins.base import BasePlugin
+            from SAAB_SUITE.plugins.base import BasePlugin
 
             class Plugin(BasePlugin):
                 name = "{name}"
@@ -288,7 +288,7 @@ def main(name: str):
             [project]
             name = "{pkg_name}"
             version = "0.1.0"
-            dependencies = ["SAAB-SUITE"]
+            dependencies = ["SAAB_SUITE"]
 
             [project.entry-points."saab_suite.plugins"]
             {name} = "{mod_name}.plugin:Plugin"
@@ -335,8 +335,8 @@ def check_git():
 
 def check_import():
     try:
-        __import__("SAAB-SUITE")
-        print("[OK] Import SAAB-SUITE")
+        __import__("SAAB_SUITE")
+        print("[OK] Import SAAB_SUITE")
     except Exception as e:
         print("[FAIL] Import error:", e)
         sys.exit(1)
@@ -367,10 +367,10 @@ chmod +x tools/cleanup.sh
 # 13. Migration Commit Message
 ###############################################
 cat > tools/migration_commit_msg.txt << 'EOD'
-Migrate core package from `saab_suite` to `SAAB-SUITE`
+Migrate core package from `saab_suite` to `SAAB_SUITE`
 
 - Remove legacy src/saab_suite package
-- Add new src/SAAB-SUITE hexagonal layout
+- Add new src/SAAB_SUITE hexagonal layout
 - Update runtime paths and interfaces
 - Preserve plugins, tests, and packaging structure
 EOD
@@ -383,7 +383,7 @@ cat > tools/audit_imports.py << 'EOD'
 from pathlib import Path
 import ast
 
-ROOT = Path("src/SAAB-SUITE")
+ROOT = Path("src/SAAB_SUITE")
 
 missing = []
 
@@ -414,10 +414,10 @@ import pkg_resources
 
 def check_imports():
     modules = [
-        "SAAB-SUITE",
-        "SAAB-SUITE.interfaces.cli.main",
-        "SAAB-SUITE.services.vin.decoder",
-        "SAAB-SUITE.services.sps.plan_builder",
+        "SAAB_SUITE",
+        "SAAB_SUITE.interfaces.cli.main",
+        "SAAB_SUITE.services.vin.decoder",
+        "SAAB_SUITE.services.sps.plan_builder",
     ]
     for m in modules:
         import_module(m)
@@ -430,19 +430,19 @@ def check_plugins():
         ep.load()
 
 def check_cli():
-    subprocess.run(["saab-suite", "--help"], check=True, capture_output=True)
-    subprocess.run(["saab-suite", "diag", "--help"], check=True, capture_output=True)
+    subprocess.run(["saab", "--help"], check=True, capture_output=True)
+    subprocess.run(["saab", "diag", "--help"], check=True, capture_output=True)
     print("[OK] CLI entrypoints")
 
 def check_runtime():
-    from SAAB-SUITE.runtime import paths
+    from SAAB_SUITE.runtime import paths
     for p in [paths.LOG_DIR, paths.CACHE_DIR, paths.BACKUP_DIR, paths.LOCK_DIR]:
         print("[OK] Runtime path:", p)
     paths.ensure_dirs()
 
 def check_metadata():
     import importlib.metadata as md
-    print("[OK] Version:", md.version("SAAB-SUITE"))
+    print("[OK] Version:", md.version("SAAB_SUITE"))
 
 if __name__ == "__main__":
     check_imports()
@@ -461,7 +461,7 @@ cat > tools/bootstrap.sh << 'EOD'
 set -euo pipefail
 
 echo "=============================================="
-echo " SAAB-SUITE BOOTSTRAP: FULL SYSTEM CHECK"
+echo " SAAB_SUITE BOOTSTRAP: FULL SYSTEM CHECK"
 echo "=============================================="
 
 echo "[1/5] Cleanup..."
@@ -480,7 +480,7 @@ echo "[5/5] Running tests..."
 tools/test.sh
 
 echo "=============================================="
-echo " ALL CHECKS PASSED — SAAB-SUITE IS HEALTHY"
+echo " ALL CHECKS PASSED — SAAB_SUITE IS HEALTHY"
 echo "=============================================="
 EOD
 chmod +x tools/bootstrap.sh

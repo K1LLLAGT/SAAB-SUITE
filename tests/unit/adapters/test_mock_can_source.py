@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from saab_suite.adapters.can.mock_source import MockCanSource
-from saab_suite.domain.can.bus import CanBus, CanBusKind
-from saab_suite.domain.can.frame import CanFrame, CanId
-from saab_suite.kernel.types import MonotonicNs
+from SAAB_SUITE.adapters.can.mock_source import MockCanSource
+from SAAB_SUITE.domain.can.bus import CanBus, CanBusKind
+from SAAB_SUITE.domain.can.frame import CanFrame, CanId
+from SAAB_SUITE.kernel.types import MonotonicNs
 
 HS = CanBus(kind=CanBusKind.HS, name="HS-CAN", bitrate=500000)
 
