@@ -46,5 +46,5 @@ jobs:
             See CHANGELOG.md for details.
 
             Verification:
-              python -m pip install saab-suite==${{ github.ref_name }}
+              python -m pip install saab_suite==${{ github.ref_name }}
               saab version

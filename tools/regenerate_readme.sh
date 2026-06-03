@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cat > README.md << 'DOC'
 # SAAB_SUITE
 
 SAAB_SUITE is a hexagonally-architected diagnostic and flashing suite for Saab vehicles.
@@ -30,3 +34,9 @@ SAAB_SUITE is a hexagonally-architected diagnostic and flashing suite for Saab v
 - Docker
 - Termux
 - Windows installer
+DOC
+
+echo "README regenerated. Commit and push:"
+echo "  git add README.md"
+echo "  git commit -m \"Regenerate README for SAAB_SUITE\""
+echo "  git push"

@@ -2,14 +2,14 @@
 
 ## Setup
 
-    git clone <YOUR_REPO_URL> SAAB-SUITE
-    cd SAAB-SUITE
+    git clone <YOUR_REPO_URL> SAAB_SUITE
+    cd SAAB_SUITE
     python -m venv .venv
     source .venv/bin/activate
     pip install -e ".[dev]"
 
 ## Layout
-- src/SAAB-SUITE/
+- src/SAAB_SUITE/
 - plugins/
 - runtime/
 - vendor/

@@ -42,7 +42,7 @@ under `vendor/tools/` and CI rejects PRs that add files matching `*keygen*`,
 `*crack*`, or `*serial*` outside `vendor/tools/` (where they remain local-only).
 
 If you possess legitimate licenses for GDS2, Tech2Win, GlobalTIS, WIS, or EPC,
-configure their installation paths in `~/.config/saab-suite/config.toml` and
+configure their installation paths in `~/.config/saab_suite/config.toml` and
 the suite will integrate with them. The suite does not bundle them.
 
 ## Reporting vulnerabilities

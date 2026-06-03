@@ -1,8 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # ============================================================================
 # rebuild_saab_suite.sh
-# Applies the ports-aligned CAN/UDS rebuild to the SAAB-SUITE project at
-#   /sdcard/Download/SAAB-SUITE   (Termux / Android)
+# Applies the ports-aligned CAN/UDS rebuild to the SAAB_SUITE project at
+#   /sdcard/Download/SAAB_SUITE   (Termux / Android)
 #
 # Behaviour:
 #   * If the project is missing, clones it (on ext4 first, then copies to /sdcard,
@@ -20,15 +20,15 @@
 # ============================================================================
 set -euo pipefail
 
-REPO_URL="https://github.com/K1LLLAGT/SAAB-SUITE.git"
-DEST="/sdcard/Download/SAAB-SUITE"
+REPO_URL="https://github.com/K1LLLAGT/SAAB_SUITE.git"
+DEST="/sdcard/Download/SAAB_SUITE"
 PKG="src/saab_suite"
 TS="$(date +%Y%m%d-%H%M%S)"
 BACKUP="$DEST/.saab_rebuild_backup_$TS"
 FRESH="${FRESH:-0}"
 GH_TOKEN="${GH_TOKEN:-}"
 
-echo "==> SAAB-SUITE rebuild"
+echo "==> SAAB_SUITE rebuild"
 echo "    target : $DEST"
 
 # 0. storage access ----------------------------------------------------------
@@ -40,7 +40,7 @@ fi
 # 1. ensure the project is present -------------------------------------------
 do_clone() {
   local url="$REPO_URL"
-  [ -n "$GH_TOKEN" ] && url="https://${GH_TOKEN}@github.com/K1LLLAGT/SAAB-SUITE.git"
+  [ -n "$GH_TOKEN" ] && url="https://${GH_TOKEN}@github.com/K1LLLAGT/SAAB_SUITE.git"
   local tmp="$HOME/.saab_clone_$TS"
   rm -rf "$tmp"
   if git clone --depth 1 "$url" "$tmp"; then
@@ -337,7 +337,7 @@ class PyCanBackend:
     # -- lifecycle (ICanSource) -----------------------------------------------
     def open(self, bus: "CanBus", bitrate: int) -> None:
         if can is None:
-            raise RuntimeError("python-can not installed. Install saab-suite[hardware].")
+            raise RuntimeError("python-can not installed. Install saab_suite[hardware].")
         self._bus = bus
         self._bus_obj = can.Bus(channel=self._channel, interface=self._interface, bitrate=bitrate)
 

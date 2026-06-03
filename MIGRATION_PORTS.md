@@ -1,4 +1,4 @@
-# SAAB-SUITE — Authoritative CAN/UDS Migration (ports-aligned)
+# SAAB_SUITE — Authoritative CAN/UDS Migration (ports-aligned)
 
 This supersedes the `interface.py`-centric advice in the earlier `MIGRATION.md`.
 Now that the real `ports/` and `domain/` are visible, the correct direction is

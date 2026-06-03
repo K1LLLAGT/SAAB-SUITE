@@ -40,7 +40,7 @@ class PyCanBackend:
     # -- lifecycle (ICanSource) -----------------------------------------------
     def open(self, bus: "CanBus", bitrate: int) -> None:
         if can is None:
-            raise RuntimeError("python-can not installed. Install saab-suite[hardware].")
+            raise RuntimeError("python-can not installed. Install saab_suite[hardware].")
         self._bus = bus
         self._bus_obj = can.Bus(channel=self._channel, interface=self._interface, bitrate=bitrate)
 

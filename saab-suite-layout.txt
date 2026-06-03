@@ -1,4 +1,4 @@
-/sdcard/saab-suite/
+/sdcard/saab_suite/
 ├── .editorconfig
 ├── .git
 │   ├── COMMIT_EDITMSG
@@ -5907,7 +5907,7 @@
 ├── bin
 │   ├── saab-bootstrap
 │   ├── saab-can-slcan
-│   └── saab-suite
+│   └── saab_suite
 ├── can_gateway_linux.py
 ├── can_gateway_windows_j2534.py
 ├── docs
@@ -5937,7 +5937,7 @@
 │   │   ├── AppRun
 │   │   ├── README.md
 │   │   ├── build.sh
-│   │   └── saab-suite.desktop
+│   │   └── saab_suite.desktop
 │   ├── docker
 │   │   ├── Dockerfile.dev
 │   │   ├── Dockerfile.runtime
@@ -5951,19 +5951,19 @@
 │       ├── README.md
 │       └── installer.iss
 ├── plugins
-│   ├── saab-suite-af40
+│   ├── saab_suite-af40
 │   │   ├── README.md
 │   │   ├── pyproject.toml
 │   │   └── src
 │   │       └── saab_suite_af40
 │   │           └── __init__.py
-│   ├── saab-suite-haldex
+│   ├── saab_suite-haldex
 │   │   ├── README.md
 │   │   ├── pyproject.toml
 │   │   └── src
 │   │       └── saab_suite_haldex
 │   │           └── __init__.py
-│   └── saab-suite-trionic
+│   └── saab_suite-trionic
 │       ├── README.md
 │       ├── pyproject.toml
 │       └── src
@@ -5995,7 +5995,7 @@
 │           │   └── .gitkeep
 │           └── tuning
 │               └── .gitkeep
-├── saab-suite.tar.zst
+├── saab_suite.tar.zst
 ├── src
 │   └── saab_suite
 │       ├── __init__.py

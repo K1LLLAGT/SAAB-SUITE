@@ -3,7 +3,7 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "saab-suite"
+name = "saab_suite"
 version = "0.1.0"
 description = "OEM-grade diagnostic and programming suite for SAAB 9-3 / 9-5 (Trionic T8, AF40-6, Haldex Gen4)"
 readme = "README.md"
@@ -62,12 +62,12 @@ dev = [
     "build>=1.2",
     "twine>=5.0",
 ]
-all = ["saab-suite[hardware,tui,web,dev]"]
+all = ["saab_suite[hardware,tui,web,dev]"]
 
 [project.urls]
-Homepage = "https://github.com/k1lllagt/saab-suite"
-Repository = "https://github.com/k1lllagt/saab-suite"
-Issues = "https://github.com/k1lllagt/saab-suite/issues"
+Homepage = "https://github.com/k1lllagt/saab_suite"
+Repository = "https://github.com/k1lllagt/saab_suite"
+Issues = "https://github.com/k1lllagt/saab_suite/issues"
 
 [project.scripts]
 saab = "SAAB_SUITE.interfaces.cli.main:main"

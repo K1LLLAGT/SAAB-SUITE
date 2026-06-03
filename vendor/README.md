@@ -46,7 +46,7 @@ Run `git lfs install` once on your machine before committing.
 After placing artifacts, point the suite at them:
 
 ```toml
-# ~/.config/saab-suite/config.toml
+# ~/.config/saab_suite/config.toml
 [vendor]
 gds2_path = "/path/to/gds2"
 tech2win_path = "/path/to/tech2win"

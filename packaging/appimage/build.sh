@@ -19,7 +19,7 @@ mkdir -p "$APPDIR/usr/bin" "$APPDIR/usr/lib/python3.11/site-packages"
 python3 -m pip install --target "$APPDIR/usr/lib/python3.11/site-packages" "$ROOT[hardware,tui,web]"
 
 cp "$SCRIPT_DIR/AppRun" "$APPDIR/AppRun"
-cp "$SCRIPT_DIR/saab-suite.desktop" "$APPDIR/saab-suite.desktop"
+cp "$SCRIPT_DIR/saab_suite.desktop" "$APPDIR/saab_suite.desktop"
 chmod +x "$APPDIR/AppRun"
 
 linuxdeploy --appdir "$APPDIR" --output appimage

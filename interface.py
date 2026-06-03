@@ -55,7 +55,7 @@ class CanInterface:
 
     def open(self) -> None:
         if can is None:
-            raise RuntimeError("python-can is not installed. Install saab-suite[hardware].")
+            raise RuntimeError("python-can is not installed. Install saab_suite[hardware].")
 
         # python-can 4.x prefers `interface=`; `bustype=` is still accepted as an alias.
         kwargs = {"channel": self._channel, "interface": self._bustype}

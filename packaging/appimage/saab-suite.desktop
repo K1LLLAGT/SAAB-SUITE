@@ -2,6 +2,6 @@
 Type=Application
 Name=SAAB Suite
 Exec=AppRun
-Icon=saab-suite
+Icon=saab_suite
 Categories=Development;Utility;
 Terminal=true

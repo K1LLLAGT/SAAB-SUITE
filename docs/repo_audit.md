@@ -1,4 +1,4 @@
-# SAAB-SUITE Repo Audit
+# SAAB_SUITE Repo Audit
 
 ## Strengths
 - Hexagonal architecture

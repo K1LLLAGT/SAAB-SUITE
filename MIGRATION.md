@@ -1,4 +1,4 @@
-# SAAB-SUITE — Layout Fix & Migration Plan
+# SAAB_SUITE — Layout Fix & Migration Plan
 
 Scope: clean up and standardize `src/saab_suite/adapters/can/`, then tie it into
 the wider package. The goal is one obvious home for each thing, one `CanFrame`,

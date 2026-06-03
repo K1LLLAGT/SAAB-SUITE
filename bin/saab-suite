@@ -2,7 +2,7 @@
 # SAAB Suite Termux Launcher
 # OEM‑grade, deterministic, venv‑aware, multi‑command router
 
-ROOT="$HOME/saab-suite"
+ROOT="$HOME/saab_suite"
 VENV="$ROOT/.venv"
 
 # Ensure venv exists
@@ -24,7 +24,7 @@ shift || true
 case "$CMD" in
     ""|help|-h|--help)
         echo "SAAB Suite (Termux Edition)"
-        echo "Usage: saab-suite <command> [args]"
+        echo "Usage: saab_suite <command> [args]"
         echo ""
         echo "Commands:"
         echo "  tui        Launch Textual TUI"
