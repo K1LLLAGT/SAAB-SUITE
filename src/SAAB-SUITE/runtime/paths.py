@@ -14,6 +14,6 @@ CACHE_DIR = BASE_DIR / "cache"
 BACKUP_DIR = BASE_DIR / "backups"
 LOCK_DIR = BASE_DIR / "locks"
 
-def ensure_dirs() -> None:
+def ensure_dirs():
     for d in (LOG_DIR, CACHE_DIR, BACKUP_DIR, LOCK_DIR):
         d.mkdir(parents=True, exist_ok=True)

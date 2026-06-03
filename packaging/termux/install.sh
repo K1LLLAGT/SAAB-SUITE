@@ -7,7 +7,7 @@ APP_DIR="$PREFIX_DIR/share/saab-suite"
 mkdir -p "$APP_DIR"
 cp -r . "$APP_DIR"
 
-if ! grep -q "SAAB_SUITE_RUNTIME" "$HOME/.bashrc" 2>/dev/null; then
+if ! grep -q "SAAB_SUITE_RUNTIME" "$HOME/.bashrc"; then
   echo 'export SAAB_SUITE_RUNTIME="$HOME/.saab-suite/runtime"' >> "$HOME/.bashrc"
 fi
 

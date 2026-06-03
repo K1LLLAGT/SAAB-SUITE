@@ -10,3 +10,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+from SAAB-SUITE.interfaces.tui.screens.workflow import WorkflowScreen
+
+# Example: add to your screen routing / menu
+# self.push_screen("workflow", WorkflowScreen())

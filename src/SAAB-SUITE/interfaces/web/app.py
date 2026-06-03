@@ -10,3 +10,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+from SAAB-SUITE.interfaces.web.routers import workflow as workflow_router
+
+app.include_router(workflow_router.router)

@@ -1,43 +1,5 @@
 graph TD
-  subgraph Interfaces
-    CLI
-    TUI
-    Web
-    API
-  end
-
-  subgraph Services
-    Diagnostics
-    Discovery
-    Live
-    SPS
-    VIN
-    Models
-  end
-
-  subgraph Domain
-    CAN
-    ECU
-    DTC
-    Firmware
-    Session
-    Vehicle
-  end
-
-  subgraph Ports
-    PortsLayer
-  end
-
-  subgraph Adapters
-    CAN_Adapter
-    UDS_Adapter
-    KWP_Adapter
-    J2534_Adapter
-    Stores
-    VehicleState
-  end
-
   Interfaces --> Services
   Services --> Domain
-  Domain --> PortsLayer
-  PortsLayer --> Adapters
+  Domain --> Ports
+  Ports --> Adapters
