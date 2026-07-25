@@ -4,7 +4,7 @@
 [Setup]
 AppName=SAAB Suite (Companion)
 AppVersion=1.0.0
-AppPublisher=GAT
+AppPublisher=K1LLLAGT
 DefaultDirName={pf}\SAAB_Suite
 DefaultGroupName=SAAB Suite
 OutputBaseFilename=Saab_Suite-v1.0.0-windows-companion
