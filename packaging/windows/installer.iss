@@ -3,11 +3,11 @@
 
 [Setup]
 AppName=SAAB Suite (Companion)
-AppVersion=0.1.0
+AppVersion=1.0.0
 AppPublisher=GAT
 DefaultDirName={pf}\SAAB_Suite
 DefaultGroupName=SAAB Suite
-OutputBaseFilename=SAAB-Suite-0.1.0-windows-companion
+OutputBaseFilename=Saab_Suite-v1.0.0-windows-companion
 Compression=lzma2
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
