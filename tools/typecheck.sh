@@ -20,7 +20,7 @@ mapfile -t targets < <(changed_python_files)
 mypy_targets=()
 
 for target in "${targets[@]}"; do
-  if [[ "${target}" == src/SAAB_SUITE/* || "${target}" == packaging/windows/* ]]; then
+  if [[ "${target}" == src/saab_suite/* || "${target}" == packaging/windows/* ]]; then
     mypy_targets+=("${target}")
   fi
 done

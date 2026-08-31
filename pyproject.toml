@@ -137,7 +137,7 @@ module = ["cantools.*", "can.*", "isotp.*", "textual.*"]
 ignore_missing_imports = true
 
 [tool.importlinter]
-root_packages = ["SAAB_SUITE"]
+root_packages = ["saab_suite"]
 include_external_packages = true
 
 [[tool.importlinter.contracts]]
