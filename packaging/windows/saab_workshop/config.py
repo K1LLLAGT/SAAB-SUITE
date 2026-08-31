@@ -74,7 +74,7 @@ class WorkshopConfig:
         self.config_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     @classmethod
-    def load(cls) -> "WorkshopConfig":
+    def load(cls) -> WorkshopConfig:
         cfg = cls()
         if cfg.config_path.exists():
             try:

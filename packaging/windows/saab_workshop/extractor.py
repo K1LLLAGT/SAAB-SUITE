@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import re
 import shutil
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -71,7 +72,7 @@ class SyncResult:
     errors: list[str] = field(default_factory=list)
 
 
-def _iter_source_files(source_dir: Path):
+def _iter_source_files(source_dir: Path) -> Iterator[Path]:
     for entry in source_dir.rglob("*"):
         if not entry.is_file():
             continue
@@ -123,7 +124,9 @@ def sync_vendor(
                 if actual != entry.sha256:
                     logger.warning(
                         "hash mismatch for %s (manifest expected %s, got %s); skipping",
-                        src, entry.sha256, actual,
+                        src,
+                        entry.sha256,
+                        actual,
                     )
                     result.skipped_hash_mismatch += 1
                     continue
@@ -152,8 +155,12 @@ def sync_vendor(
     logger.info(
         "sync complete: scanned=%d copied=%d unchanged=%d hash_mismatch=%d "
         "unclassified=%d failed=%d",
-        result.scanned, result.copied, result.skipped_unchanged,
-        result.skipped_hash_mismatch, result.skipped_unclassified, result.failed,
+        result.scanned,
+        result.copied,
+        result.skipped_unchanged,
+        result.skipped_hash_mismatch,
+        result.skipped_unclassified,
+        result.failed,
     )
     config.last_source_dir = str(source_dir)
     config.save()

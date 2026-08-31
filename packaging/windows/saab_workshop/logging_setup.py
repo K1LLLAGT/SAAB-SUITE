@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 _LOGGER_NAME = "saab_workshop"
@@ -34,7 +34,7 @@ def configure_logging(log_dir: Path | None, level: str = "INFO") -> logging.Logg
     if log_dir is not None:
         try:
             log_dir.mkdir(parents=True, exist_ok=True)
-            stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+            stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
             file_handler = logging.FileHandler(
                 log_dir / f"saab-workshop-{stamp}.log", encoding="utf-8"
             )

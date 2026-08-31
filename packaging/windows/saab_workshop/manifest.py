@@ -115,7 +115,12 @@ def load_manifest(manifest_path: Path) -> list[ManifestEntry]:
             except (json.JSONDecodeError, ValueError, TypeError):
                 logger.warning("skipping malformed manifest line %d in %s", line_no, manifest_path)
 
-    logger.info("loaded %d manifest entr%s from %s", len(entries), "y" if len(entries) == 1 else "ies", manifest_path)
+    logger.info(
+        "loaded %d manifest entr%s from %s",
+        len(entries),
+        "y" if len(entries) == 1 else "ies",
+        manifest_path,
+    )
     return entries
 
 

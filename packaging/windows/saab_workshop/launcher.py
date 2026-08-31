@@ -10,8 +10,8 @@ session over one missing or renamed tool.
 
 from __future__ import annotations
 
+import platform
 import subprocess
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -84,18 +84,28 @@ def _verify_against_manifest(config: WorkshopConfig, path: Path) -> tuple[bool, 
     return True, "SHA256 verified against manifest"
 
 
-def launch_tool(config: WorkshopConfig, category: str, index: int = 0, verify: bool = True) -> LaunchResult:
+def launch_tool(
+    config: WorkshopConfig,
+    category: str,
+    index: int = 0,
+    verify: bool = True,
+) -> LaunchResult:
     logger = get_logger()
     try:
         candidates = find_tools(config, category)
         if not candidates:
             display = TOOL_REGISTRY.get(category, (category,))[0]
-            msg = f"{display} not found under {config.vendor_dir}. Run 'extract' first, or install it there manually."
+            msg = (
+                f"{display} not found under {config.vendor_dir}. "
+                "Run 'extract' first, or install it there manually."
+            )
             logger.warning(msg)
             return LaunchResult(ok=False, message=msg, category=category)
 
         if index < 0 or index >= len(candidates):
-            msg = f"tool index {index} out of range for category {category} ({len(candidates)} found)"
+            msg = (
+                f"tool index {index} out of range for category {category} ({len(candidates)} found)"
+            )
             logger.warning(msg)
             return LaunchResult(ok=False, message=msg, category=category)
 
@@ -109,8 +119,8 @@ def launch_tool(config: WorkshopConfig, category: str, index: int = 0, verify: b
                 logger.error(msg)
                 return LaunchResult(ok=False, message=msg, category=category, path=target)
 
-        if sys.platform != "win32":
-            msg = f"not launching {target}: not running on Windows (platform={sys.platform})"
+        if platform.system() != "Windows":
+            msg = f"not launching {target}: not running on Windows (platform={platform.system()})"
             logger.info(msg)
             return LaunchResult(ok=False, message=msg, category=category, path=target)
 
@@ -123,7 +133,7 @@ def launch_tool(config: WorkshopConfig, category: str, index: int = 0, verify: b
         msg = f"failed to launch tool for category {category}: {exc}"
         logger.error(msg)
         return LaunchResult(ok=False, message=msg, category=category)
-    except Exception as exc:  # noqa: BLE001 -- launcher must never crash the app
+    except Exception as exc:
         msg = f"unexpected error launching tool for category {category}: {exc}"
         logger.error(msg)
         return LaunchResult(ok=False, message=msg, category=category)

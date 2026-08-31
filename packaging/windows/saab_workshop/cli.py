@@ -1,10 +1,10 @@
 """Command-line interface for saab-workshop.exe.
 
-    saab-workshop extract --source D:\\SaabWorkshopSync [--manifest PATH]
-    saab-workshop verify
-    saab-workshop list
-    saab-workshop launch gds2
-    saab-workshop gui
+saab-workshop extract --source D:\\SaabWorkshopSync [--manifest PATH]
+saab-workshop verify
+saab-workshop list
+saab-workshop launch gds2
+saab-workshop gui
 """
 
 from __future__ import annotations
@@ -24,18 +24,44 @@ def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="saab-workshop", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p_extract = sub.add_parser("extract", help="sync a local vendor source into %USERPROFILE%\\SaabWorkshop\\vendor")
-    p_extract.add_argument("--source", required=True, help="folder containing your own already-licensed OEM tools/ISOs")
-    p_extract.add_argument("--manifest", help="path to a JSONL manifest (defaults to the newest one under the workshop manifests dir if omitted)")
-    p_extract.add_argument("--include-unclassified", action="store_true", help="also copy files the classifier could not categorize")
+    p_extract = sub.add_parser(
+        "extract",
+        help="sync a local vendor source into %USERPROFILE%\\SaabWorkshop\\vendor",
+    )
+    p_extract.add_argument(
+        "--source",
+        required=True,
+        help="folder containing your own already-licensed OEM tools/ISOs",
+    )
+    p_extract.add_argument(
+        "--manifest",
+        help=(
+            "path to a JSONL manifest "
+            "(defaults to the newest one under the workshop manifests dir if omitted)"
+        ),
+    )
+    p_extract.add_argument(
+        "--include-unclassified",
+        action="store_true",
+        help="also copy files the classifier could not categorize",
+    )
 
     sub.add_parser("verify", help="verify every file under vendor/ against the newest manifest")
     sub.add_parser("list", help="list OEM tools currently discoverable under vendor/")
 
     p_launch = sub.add_parser("launch", help="launch a tool by category")
     p_launch.add_argument("category", choices=sorted(TOOL_REGISTRY))
-    p_launch.add_argument("--index", type=int, default=0, help="which match to launch when multiple executables are found")
-    p_launch.add_argument("--no-verify", action="store_true", help="skip manifest SHA256 verification before launch")
+    p_launch.add_argument(
+        "--index",
+        type=int,
+        default=0,
+        help="which match to launch when multiple executables are found",
+    )
+    p_launch.add_argument(
+        "--no-verify",
+        action="store_true",
+        help="skip manifest SHA256 verification before launch",
+    )
 
     sub.add_parser("gui", help="launch the graphical interface")
 
@@ -43,7 +69,9 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def _cmd_extract(config: WorkshopConfig, args: argparse.Namespace) -> int:
-    manifest_path = Path(args.manifest) if args.manifest else find_latest_manifest(config.manifest_dir)
+    manifest_path = (
+        Path(args.manifest) if args.manifest else find_latest_manifest(config.manifest_dir)
+    )
     result = sync_vendor(
         config,
         Path(args.source),
@@ -124,7 +152,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         return handlers[args.command](config, args)
-    except Exception as exc:  # noqa: BLE001 -- top-level guard: never crash, always log + exit cleanly
+    except Exception as exc:
         logger.exception("unhandled error in command %s: %s", args.command, exc)
         print(f"error: {exc}", file=sys.stderr)
         return 1

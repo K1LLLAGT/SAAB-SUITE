@@ -21,7 +21,10 @@ def run_gui(config: WorkshopConfig) -> int:
         import tkinter as tk
         from tkinter import filedialog, messagebox, ttk
     except ImportError:
-        logger.error("tkinter is not available in this Python build; use the CLI instead (saab-workshop --help)")
+        logger.error(
+            "tkinter is not available in this Python build; "
+            "use the CLI instead (saab-workshop --help)"
+        )
         print("GUI unavailable: tkinter is not installed. Use the CLI commands instead.")
         return 1
 
@@ -47,7 +50,13 @@ def run_gui(config: WorkshopConfig) -> int:
                 tree.insert("", "end", iid=category, text=label, values=("(not found)",))
             else:
                 for i, path in enumerate(paths):
-                    tree.insert("", "end", iid=f"{category}::{i}", text=label if i == 0 else "", values=(str(path),))
+                    tree.insert(
+                        "",
+                        "end",
+                        iid=f"{category}::{i}",
+                        text=label if i == 0 else "",
+                        values=(str(path),),
+                    )
         status_var.set(f"Home: {config.home_dir}  |  refreshed")
 
     def on_extract() -> None:
