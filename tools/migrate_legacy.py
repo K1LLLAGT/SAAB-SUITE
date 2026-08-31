@@ -59,8 +59,16 @@ MAPPING: list[tuple[str, str]] = [
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--source", required=True, help="Path to legacy ~/SAAB-DIAGNOSTIC-AND-TUNE tree")
+    """Run the command-line entry point."""
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--source",
+        required=True,
+        help="Path to legacy ~/SAAB-DIAGNOSTIC-AND-TUNE tree",
+    )
     parser.add_argument("--dest", required=True, help="Path to new saab tree (must already exist)")
     parser.add_argument("--force", action="store_true", help="Overwrite existing destination paths")
     parser.add_argument("--dry-run", action="store_true", help="Print the plan; copy nothing")
@@ -73,7 +81,10 @@ def main() -> int:
         print(f"ERROR: source {source} is not a directory", file=sys.stderr)
         return 1
     if not dest.is_dir():
-        print(f"ERROR: dest {dest} is not a directory (run scaffolding generator first)", file=sys.stderr)
+        print(
+            f"ERROR: dest {dest} is not a directory (run scaffolding generator first)",
+            file=sys.stderr,
+        )
         return 1
 
     report_lines = ["# Legacy migration report", ""]
@@ -89,7 +100,9 @@ def main() -> int:
             missing += 1
             continue
         if dst.exists() and not args.force:
-            report_lines.append(f"- SKIP: `{src_rel}` (destination `{dst_rel}` exists, use --force)")
+            report_lines.append(
+                f"- SKIP: `{src_rel}` (destination `{dst_rel}` exists, use --force)"
+            )
             skipped += 1
             continue
         report_lines.append(f"- COPY: `{src_rel}` -> `{dst_rel}`")

@@ -3,7 +3,7 @@ from __future__ import annotations
 import time
 from dataclasses import dataclass
 
-from saab_suite.adapters.can.remote_interface import RemoteCanInterface, CanFrame
+from saab_suite.adapters.can.remote_interface import CanFrame, RemoteCanInterface
 
 # ISO-TP PCI type nibbles (high nibble of byte 0)
 _PCI_SF = 0x0  # Single Frame
@@ -38,6 +38,7 @@ class UdsResponse:
 
     @property
     def is_negative(self) -> bool:
+        """Return the is negative."""
         return bool(self.raw) and self.raw[0] == _NEGATIVE_RESPONSE
 
     @property
@@ -70,16 +71,19 @@ class UdsClient:
         self.timeout = timeout
         self._iface = RemoteCanInterface()
 
-    def __enter__(self) -> "UdsClient":
+    def __enter__(self) -> UdsClient:
+        """Return the context manager instance."""
         self._iface.open()
         return self
 
     def __exit__(self, exc_type, exc, tb) -> None:
+        """Close the context manager."""
         self._iface.close()
 
     # -- public API ------------------------------------------------------
     def read_data_by_identifier(self, did: int) -> UdsResponse:
         # UDS service 0x22 ReadDataByIdentifier
+        """Read data by identifier."""
         self._send_request(bytes([0x22, (did >> 8) & 0xFF, did & 0xFF]))
         return UdsResponse(raw=self._recv_response())
 
@@ -112,7 +116,7 @@ class UdsClient:
                 if (cf[0] >> 4) != _PCI_CF:
                     continue
                 if (cf[0] & 0x0F) != (expected_seq & 0x0F):
-                    raise IOError(
+                    raise OSError(
                         f"ISO-TP out-of-order frame: got {cf[0] & 0x0F}, "
                         f"expected {expected_seq & 0x0F}"
                     )
@@ -120,7 +124,7 @@ class UdsClient:
                 expected_seq += 1
             return bytes(buf[:total])
 
-        raise IOError(f"unexpected ISO-TP PCI on first frame: 0x{pci_type:X}")
+        raise OSError(f"unexpected ISO-TP PCI on first frame: 0x{pci_type:X}")
 
     def _await_frame(self, deadline: float) -> bytes:
         """Block until a frame on res_id arrives or the deadline passes."""

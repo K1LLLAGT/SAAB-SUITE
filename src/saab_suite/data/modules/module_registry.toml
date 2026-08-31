@@ -1,0 +1,35 @@
+# Canonical module registry -- loaded by saab_suite.domain.ecu.registry.
+# Phase-2 will populate per-platform topologies.
+
+[ECM]
+name = "Engine Control Module"
+description = "Trionic T8 ECU on B284R / A28NER"
+request_id = 0x7E0
+response_id = 0x7E8
+
+[TCM]
+name = "Transmission Control Module"
+description = "AF40-6 6-speed automatic"
+request_id = 0x7E1
+response_id = 0x7E9
+
+[XWD]
+name = "Haldex XWD Controller"
+description = "Cross-wheel drive coupling controller (Gen4)"
+request_id = 0x7E5
+response_id = 0x7ED
+
+[ABS]
+name = "Anti-lock Brake System"
+request_id = 0x7E2
+response_id = 0x7EA
+
+[BCM]
+name = "Body Control Module"
+request_id = 0x241
+response_id = 0x641
+
+[SRS]
+name = "Supplemental Restraint System"
+request_id = 0x244
+response_id = 0x644

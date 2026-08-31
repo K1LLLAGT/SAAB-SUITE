@@ -1,0 +1,72 @@
+"""ISO 14229 UDS client over an IIsoTpTransport."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+from saab_suite.kernel.errors import UdsError
+from saab_suite.ports.uds import IUdsClient
+
+if TYPE_CHECKING:
+    from saab_suite.kernel.types import WirePayload
+    from saab_suite.ports.isotp import IIsoTpTransport
+
+
+class Iso14229Client(IUdsClient):
+    """UDS client. Phase-2."""
+
+    def __init__(self, transport: IIsoTpTransport) -> None:
+        self.transport = transport
+
+    def diagnostic_session_control(self, session_type: int) -> WirePayload:
+        """Perform diagnostic session control."""
+        raise UdsError("UDS client not yet implemented")
+
+    def ecu_reset(self, reset_type: int) -> WirePayload:
+        """Perform ecu reset."""
+        raise UdsError("UDS client not yet implemented")
+
+    def security_access(self, level: int, key: WirePayload | None = None) -> WirePayload:
+        """Perform security access."""
+        raise UdsError("UDS client not yet implemented")
+
+    def read_data_by_identifier(self, did: int) -> WirePayload:
+        """Read data by identifier."""
+        raise UdsError("UDS client not yet implemented")
+
+    def write_data_by_identifier(self, did: int, data: WirePayload) -> WirePayload:
+        """Write data by identifier."""
+        raise UdsError("UDS client not yet implemented")
+
+    def read_dtc_information(self, sub_function: int, status_mask: int = 0xFF) -> WirePayload:
+        """Read dtc information."""
+        raise UdsError("UDS client not yet implemented")
+
+    def clear_diagnostic_information(self, group: int = 0xFFFFFF) -> WirePayload:
+        """Clear diagnostic information."""
+        raise UdsError("UDS client not yet implemented")
+
+    def request_download(self, address: int, size: int) -> WirePayload:
+        """Request download."""
+        raise UdsError("UDS client not yet implemented")
+
+    def transfer_data(self, block_seq_counter: int, data: WirePayload) -> WirePayload:
+        """Transfer Data."""
+        raise UdsError("UDS client not yet implemented")
+
+    def request_transfer_exit(self) -> WirePayload:
+        """Request transfer exit."""
+        raise UdsError("UDS client not yet implemented")
+
+    def routine_control(
+        self,
+        sub_function: int,
+        routine_id: int,
+        data: WirePayload = b"",
+    ) -> WirePayload:
+        """Perform routine control."""
+        raise UdsError("UDS client not yet implemented")
+
+    def tester_present(self, suppress_response: bool = True) -> WirePayload:
+        """Perform tester present."""
+        raise UdsError("UDS client not yet implemented")
