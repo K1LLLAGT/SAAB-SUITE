@@ -8,11 +8,14 @@ GUI command reports that cleanly and the CLI remains fully usable.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from .config import WorkshopConfig
 from .extractor import sync_vendor
 from .launcher import TOOL_REGISTRY, launch_tool, list_available_tools
 from .logging_setup import get_logger
+
+if TYPE_CHECKING:
+    from .config import WorkshopConfig
 
 
 def run_gui(config: WorkshopConfig) -> int:

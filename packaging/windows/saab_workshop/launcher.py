@@ -13,11 +13,15 @@ from __future__ import annotations
 import platform
 import subprocess
 from dataclasses import dataclass
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-from .config import WorkshopConfig
 from .logging_setup import get_logger
 from .manifest import find_latest_manifest, index_by_basename, load_manifest, sha256_of
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from .config import WorkshopConfig
 
 # category -> (display name, subdir under vendor/, executable name globs)
 TOOL_REGISTRY: dict[str, tuple[str, str, tuple[str, ...]]] = {
@@ -121,8 +125,9 @@ def launch_tool(
                 logger.error(msg)
                 return LaunchResult(ok=False, message=msg, category=category, path=target)
 
-        if platform.system() != "Windows":
-            msg = f"not launching {target}: not running on Windows (platform={platform.system()})"
+        current_platform = platform.system()
+        if current_platform != "Windows":
+            msg = f"not launching {target}: not running on Windows (platform={current_platform})"
             logger.info(msg)
             return LaunchResult(ok=False, message=msg, category=category, path=target)
 

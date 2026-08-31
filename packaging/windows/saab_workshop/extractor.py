@@ -21,11 +21,15 @@ import re
 import shutil
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from .config import CATEGORY_SUBDIR, WorkshopConfig
 from .logging_setup import get_logger
 from .manifest import ManifestEntry, index_by_basename, load_manifest, sha256_of
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+    from pathlib import Path
 
 _NAME_RULES: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"gds2", re.I), "gds2"),
