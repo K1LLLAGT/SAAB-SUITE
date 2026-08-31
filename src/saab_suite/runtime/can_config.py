@@ -6,6 +6,8 @@ from dataclasses import dataclass
 
 @dataclass
 class CanConfig:
+    """CAN bus configuration."""
+
     mode: str          # "remote", "virtual", "mock"
     remote_host: str
     remote_port: int

@@ -106,9 +106,9 @@ ignore = ["D203", "D213", "S101", "D100", "D104", "D107"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["D", "S101", "S105", "S106"]
-"src/SAAB_SUITE/data/**" = ["D"]
-"src/SAAB_SUITE/__version__.py" = ["D"]
-"src/SAAB_SUITE/interfaces/**" = ["D"]
+"src/saab_suite/data/**" = ["D"]
+"src/saab_suite/__version__.py" = ["D"]
+"src/saab_suite/interfaces/**" = ["D"]
 "packaging/windows/*.py" = ["D", "TCH"]
 "packaging/windows/**/*.py" = ["D", "TCH"]
 

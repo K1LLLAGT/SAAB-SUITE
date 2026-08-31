@@ -1,8 +1,9 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 
 def _default_base() -> Path:
-    env = os.environ.get("saab_suite_RUNTIME")
+    env = os.environ.get("SAAB_SUITE_RUNTIME")
     if env:
         return Path(env).expanduser()
     return Path.home() / ".saab" / "runtime"
@@ -15,5 +16,6 @@ BACKUP_DIR = BASE_DIR / "backups"
 LOCK_DIR = BASE_DIR / "locks"
 
 def ensure_dirs():
+    """Create all required runtime directories if they do not exist."""
     for d in (LOG_DIR, CACHE_DIR, BACKUP_DIR, LOCK_DIR):
         d.mkdir(parents=True, exist_ok=True)

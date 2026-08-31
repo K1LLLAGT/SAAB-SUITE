@@ -1,13 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 from saab_suite.runtime import paths
 
 
 @dataclass
 class PathStatus:
+    """Status of a single runtime directory path."""
+
     name: str
     path: Path
     exists: bool
@@ -15,6 +20,7 @@ class PathStatus:
 
 
 def validate_tree() -> list[PathStatus]:
+    """Return validation status for all expected runtime directories."""
     checks = [
         ("root", paths.root()),
         ("logs", paths.logs()),
