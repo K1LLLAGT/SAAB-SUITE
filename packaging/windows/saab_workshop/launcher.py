@@ -79,6 +79,8 @@ def _verify_against_manifest(config: WorkshopConfig, path: Path) -> tuple[bool, 
         return True, "file not present in manifest; launching without integrity check"
 
     actual = sha256_of(path)
+    if actual is None:
+        return False, f"could not read {path} for integrity check"
     if actual != entry.sha256:
         return False, f"SHA256 mismatch (manifest={entry.sha256}, actual={actual})"
     return True, "SHA256 verified against manifest"

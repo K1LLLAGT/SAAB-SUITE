@@ -106,6 +106,7 @@ def sync_vendor(
         try:
             entry = manifest_index.get(src.name.lower())
             category = entry.category if entry else classify(src)
+            src_sha256 = sha256_of(src)
 
             if category not in CATEGORY_SUBDIR:
                 result.skipped_unclassified += 1
@@ -118,26 +119,23 @@ def sync_vendor(
             dest_dir = config.vendor_dir / subdir
             dest_dir.mkdir(parents=True, exist_ok=True)
             dest = dest_dir / src.name
+            if entry is not None and entry.sha256 and src_sha256 != entry.sha256:
+                logger.warning(
+                    "hash mismatch for %s (manifest expected %s, got %s); skipping",
+                    src,
+                    entry.sha256,
+                    src_sha256,
+                )
+                result.skipped_hash_mismatch += 1
+                continue
 
-            if entry is not None and entry.sha256:
-                actual = sha256_of(src)
-                if actual != entry.sha256:
-                    logger.warning(
-                        "hash mismatch for %s (manifest expected %s, got %s); skipping",
-                        src,
-                        entry.sha256,
-                        actual,
-                    )
-                    result.skipped_hash_mismatch += 1
-                    continue
-
-            if dest.exists() and sha256_of(dest) == sha256_of(src):
+            if dest.exists() and sha256_of(dest) == src_sha256:
                 result.skipped_unchanged += 1
                 continue
 
             shutil.copy2(src, dest)
 
-            if sha256_of(dest) != sha256_of(src):
+            if sha256_of(dest) != src_sha256:
                 logger.error("post-copy verification failed for %s; removing partial copy", dest)
                 dest.unlink(missing_ok=True)
                 result.failed += 1
