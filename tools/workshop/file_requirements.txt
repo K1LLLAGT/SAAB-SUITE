@@ -1,0 +1,120 @@
+# =============================================================================
+# file_requirements.txt
+# SAAB_SUITE / Termux Workshop Environment -- system requirements manifest
+#
+# Consumed by Unified_Termux_Shell_Environment_Installer.sh during the
+# "bootstrap" and "dependency install" phases. Each non-comment,
+# non-blank line is one of:
+#
+#   pkg:<termux-package-name>          -> installed via `pkg install -y`
+#   bin:<binary-name>                  -> must resolve via `command -v`
+#                                          after pkg install; fatal if missing
+#   pyreq:<pip-requirement>            -> installed via `pip install` inside
+#                                          the workshop venv
+#   dir:<path>                         -> must exist (created by
+#                                          file_structure.sh) before scanning
+#   env:<NAME>=<default-value>         -> exported by file_system.sh if unset
+#   perm:<termux-api-permission>       -> requested via termux-setup-storage /
+#                                          Android runtime permission dialogs
+#   category:<name>                    -> a Saab diagnostic tooling category
+#                                          the organizer must be able to
+#                                          classify files into
+#
+# NO vendor OEM binaries, ISOs, installers, or license files are listed
+# here or fetched by the installer. This project never bundles or
+# redistributes third-party diagnostic software (GDS2, Tech2Win, GlobalTIS,
+# WIS, EPC, J2534 vendor drivers). See SECURITY for the project-wide policy.
+# The installer only creates the *shape* of vendor/ and organizes files the
+# user already possesses on their own device into that shape.
+# =============================================================================
+
+# ---- Core Termux packages ---------------------------------------------------
+pkg:bash
+pkg:coreutils
+pkg:findutils
+pkg:grep
+pkg:sed
+pkg:gawk
+pkg:diffutils
+pkg:tar
+pkg:gzip
+pkg:xz-utils
+pkg:zip
+pkg:unzip
+pkg:openssl-tool
+pkg:jq
+pkg:git
+pkg:git-lfs
+pkg:rsync
+pkg:tree
+pkg:file
+pkg:which
+pkg:procps
+pkg:termux-api
+pkg:python
+pkg:dos2unix
+pkg:less
+pkg:nano
+
+# ---- Binaries that must resolve on PATH after install -----------------------
+bin:bash
+bin:sha256sum
+bin:find
+bin:jq
+bin:git
+bin:rsync
+bin:tree
+bin:file
+bin:python3
+bin:termux-setup-storage
+bin:termux-info
+
+# ---- Python-side requirements (workshop venv) --------------------------------
+pyreq:click>=8.1
+pyreq:rich>=13.7
+
+# ---- Required directory structure (created by file_structure.sh) -----------
+dir:$HOME/saab
+dir:$HOME/saab/workshop
+dir:$HOME/saab/workshop/repo
+dir:$HOME/saab/workshop/staging
+dir:$HOME/saab/workshop/logs
+dir:$HOME/saab/workshop/manifests
+dir:$HOME/saab/workshop/state
+dir:$HOME/storage
+dir:$HOME/sdcard
+
+# ---- Environment variables (exported by file_system.sh) --------------------
+env:SAAB_WORKSHOP_HOME=$HOME/saab/workshop
+env:SAAB_WORKSHOP_REPO=$HOME/saab/workshop/repo
+env:SAAB_WORKSHOP_STAGING=$HOME/saab/workshop/staging
+env:SAAB_WORKSHOP_LOGDIR=$HOME/saab/workshop/logs
+env:SAAB_WORKSHOP_MANIFEST_DIR=$HOME/saab/workshop/manifests
+env:SAAB_WORKSHOP_STATE_DIR=$HOME/saab/workshop/state
+env:SAAB_WORKSHOP_REPO_URL=https://github.com/k1lllagt/saab-workshop.git
+env:SAAB_WORKSHOP_SCAN_DIRS=$HOME/storage:$HOME/sdcard:$HOME/saab
+env:SAAB_WORKSHOP_HASH_ALGO=sha256
+env:SAAB_WORKSHOP_COPY_MODE=copy
+env:SAAB_WORKSHOP_LOG_LEVEL=INFO
+
+# ---- Android/Termux runtime permissions --------------------------------------
+perm:android.permission.READ_EXTERNAL_STORAGE
+perm:android.permission.WRITE_EXTERNAL_STORAGE
+
+# ---- Saab diagnostic tooling categories the classifier must recognize ------
+category:gds2
+category:tech2win
+category:globaltis
+category:wis
+category:epc
+category:j2534_driver
+category:canusb_driver
+category:tech2_driver
+category:firmware
+category:calibration_deliverable
+category:iso_image
+category:documentation
+category:script
+category:log
+category:backup
+category:unknown

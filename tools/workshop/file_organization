@@ -1,0 +1,224 @@
+#!/usr/bin/env bash
+# =============================================================================
+# file_organization
+# SAAB_SUITE / Termux Workshop Environment -- organization policy
+#
+# This file is `source`d (not executed) by Unified_Termux_Shell_Environment_
+# Installer.sh and by tools/workshop/file_properties.sh. It defines, in one
+# place, every rule the organizer uses to decide *what a file is* and
+# *where it goes*. It intentionally holds no logic beyond simple lookups --
+# the logic lives in file_properties.sh / file_structure.sh.
+#
+# Mirrors (does not duplicate) the categories already documented in
+# vendor/README.md so the Termux-side classifier and the git repo's vendor/
+# tree never drift apart.
+# =============================================================================
+
+# Prevent double-sourcing.
+if [ -n "${SAAB_FILE_ORGANIZATION_LOADED:-}" ]; then
+    return 0 2>/dev/null || exit 0
+fi
+SAAB_FILE_ORGANIZATION_LOADED=1
+
+# -----------------------------------------------------------------------------
+# CATEGORY_LABEL: category key -> human-readable label (used in logs/manifest)
+# -----------------------------------------------------------------------------
+declare -A CATEGORY_LABEL=(
+    [gds2]="GDS2 (Global Diagnostic System 2)"
+    [tech2win]="Tech2Win"
+    [globaltis]="GlobalTIS"
+    [wis]="Workshop Information System"
+    [epc]="Electronic Parts Catalog"
+    [j2534_driver]="J2534 PassThru driver"
+    [canusb_driver]="CANUSB / LAWICEL driver"
+    [tech2_driver]="Tech2 USB driver"
+    [firmware]="ECU firmware / calibration image"
+    [calibration_deliverable]="GDS2 calibration deliverable"
+    [iso_image]="Optical disc image"
+    [documentation]="Documentation"
+    [script]="Script / tooling source"
+    [log]="Log file"
+    [backup]="Backup archive"
+    [unknown]="Unclassified"
+)
+
+# -----------------------------------------------------------------------------
+# CATEGORY_DEST: category key -> destination path, relative to
+# $SAAB_WORKSHOP_REPO (the git working tree). Mirrors vendor/README.md.
+# -----------------------------------------------------------------------------
+declare -A CATEGORY_DEST=(
+    [gds2]="vendor/isos/gds2"
+    [tech2win]="vendor/isos/tech2win"
+    [globaltis]="vendor/isos/globaltis"
+    [wis]="vendor/isos/wis"
+    [epc]="vendor/isos/epc"
+    [j2534_driver]="vendor/drivers/j2534"
+    [canusb_driver]="vendor/drivers/canusb"
+    [tech2_driver]="vendor/drivers/tech2"
+    [firmware]="vendor/firmware/custom"
+    [calibration_deliverable]="vendor/deliverables"
+    [iso_image]="vendor/isos/misc"
+    [documentation]="docs/manuals"
+    [script]="tools/imported"
+    [log]="runtime/logs/imported"
+    [backup]="runtime/backups/imported"
+    [unknown]="vendor/legacy_archive"
+)
+
+# -----------------------------------------------------------------------------
+# CATEGORY_REQUIRED: category key -> "required" | "optional"
+# "required" categories are validated for presence at the end of a run
+# (empty is fine -- it just means nothing of that type was found this pass).
+# This flag governs whether a *missing directory* is fatal, not whether the
+# category must contain files.
+# -----------------------------------------------------------------------------
+declare -A CATEGORY_REQUIRED=(
+    [gds2]="optional"
+    [tech2win]="optional"
+    [globaltis]="optional"
+    [wis]="optional"
+    [epc]="optional"
+    [j2534_driver]="optional"
+    [canusb_driver]="optional"
+    [tech2_driver]="optional"
+    [firmware]="optional"
+    [calibration_deliverable]="optional"
+    [iso_image]="optional"
+    [documentation]="required"
+    [script]="required"
+    [log]="required"
+    [backup]="optional"
+    [unknown]="required"
+)
+
+# -----------------------------------------------------------------------------
+# CATEGORY_PERMS: category key -> octal chmod applied after placement
+# -----------------------------------------------------------------------------
+declare -A CATEGORY_PERMS=(
+    [gds2]="640"
+    [tech2win]="640"
+    [globaltis]="640"
+    [wis]="640"
+    [epc]="640"
+    [j2534_driver]="640"
+    [canusb_driver]="640"
+    [tech2_driver]="640"
+    [firmware]="640"
+    [calibration_deliverable]="640"
+    [iso_image]="640"
+    [documentation]="644"
+    [script]="750"
+    [log]="600"
+    [backup]="600"
+    [unknown]="640"
+)
+
+# -----------------------------------------------------------------------------
+# NAME_RULES: ordered list of "regex|||category" pairs matched against the
+# *basename* (case-insensitive) before falling back to EXT_RULES. Order
+# matters: first match wins. This is how proprietary-tool-shaped names route
+# correctly even when the extension alone is ambiguous (e.g. a GDS2 update
+# shipped as a .zip should not fall into the generic backup bucket).
+# -----------------------------------------------------------------------------
+NAME_RULES=(
+    'gds2|||gds2'
+    'tech2win|||tech2win'
+    'tech2_?win|||tech2win'
+    'globaltis|||globaltis'
+    'global[_ ]?tis|||globaltis'
+    '(^|[^a-z])wis([^a-z]|$)|||wis'
+    'epc[_ -]?catalog|||epc'
+    'j2534|||j2534_driver'
+    'mongoose|||j2534_driver'
+    'canusb|||canusb_driver'
+    'lawicel|||canusb_driver'
+    'tech2[_ -]?driver|||tech2_driver'
+    '\.ndx$|||calibration_deliverable'
+    'deliverable|||calibration_deliverable'
+)
+
+# -----------------------------------------------------------------------------
+# EXT_RULES: extension (lowercase, no dot) -> category. Fallback used when no
+# NAME_RULES pattern matches.
+# -----------------------------------------------------------------------------
+declare -A EXT_RULES=(
+    [iso]="iso_image"
+    [img]="iso_image"
+    [bin]="firmware"
+    [hex]="firmware"
+    [s19]="firmware"
+    [cal]="firmware"
+    [xml]="calibration_deliverable"
+    [pdf]="documentation"
+    [md]="documentation"
+    [txt]="documentation"
+    [doc]="documentation"
+    [docx]="documentation"
+    [htm]="documentation"
+    [html]="documentation"
+    [sh]="script"
+    [py]="script"
+    [ps1]="script"
+    [bat]="script"
+    [cmd]="script"
+    [log]="log"
+    [zip]="backup"
+    [rar]="backup"
+    [7z]="backup"
+    [tar]="backup"
+    [gz]="backup"
+    [msi]="unknown"
+    [exe]="unknown"
+    [dll]="j2534_driver"
+)
+
+# -----------------------------------------------------------------------------
+# EXCLUDE_PATTERNS: basenames/paths that must never be scanned or moved
+# (installer internals, VCS metadata, OS cruft, already-organized content).
+# Grep -E, matched against the full path.
+# -----------------------------------------------------------------------------
+EXCLUDE_PATTERNS=(
+    '/\.git(/|$)'
+    '/\.git-lfs(/|$)'
+    '(^|/)\.DS_Store$'
+    '(^|/)Thumbs\.db$'
+    '(^|/)\.thumbnails(/|$)'
+    '(^|/)\.Trash(-[0-9]+)?(/|$)'
+    '(^|/)lost\+found(/|$)'
+    '(^|/)Android/(data|obb)(/|$)'
+    '/saab/workshop/repo(/|$)'
+    '/saab/workshop/staging(/|$)'
+)
+
+# -----------------------------------------------------------------------------
+# Naming convention applied to every destination filename: lowercase the
+# extension, replace whitespace/illegal characters with underscores, strip
+# repeated underscores. Keeps the imported tree portable across ext4/FAT/
+# Android's storage FUSE layer.
+# -----------------------------------------------------------------------------
+saab_sanitize_filename() {
+    local raw="$1"
+    local base ext
+    base="${raw%.*}"
+    if [[ "$raw" == *.* ]]; then
+        ext="${raw##*.}"
+        ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+    else
+        ext=""
+    fi
+    base="$(printf '%s' "$base" | sed -E 's/[^A-Za-z0-9._-]+/_/g; s/_+/_/g; s/^_+|_+$//g')"
+    if [ -n "$ext" ]; then
+        printf '%s.%s' "$base" "$ext"
+    else
+        printf '%s' "$base"
+    fi
+}
+
+# -----------------------------------------------------------------------------
+# Organization policy toggles. All can be overridden by exporting the
+# variable before running the installer (e.g. SAAB_WORKSHOP_COPY_MODE=move).
+# -----------------------------------------------------------------------------
+: "${SAAB_WORKSHOP_COPY_MODE:=copy}"       # copy | move
+: "${SAAB_WORKSHOP_DEDUPLICATE:=1}"        # 1 = skip if identical hash exists at dest
+: "${SAAB_WORKSHOP_VERIFY_BEFORE_MOVE:=1}" # 1 = hash source before AND after transfer
+: "${SAAB_WORKSHOP_MAX_FILE_MB:=8192}"     # skip (log + report) anything larger
