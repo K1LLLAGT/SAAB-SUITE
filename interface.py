@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 from saab_suite.runtime.can_config import load_can_config
 
@@ -29,9 +28,10 @@ class CanFrame:
 
     can_id: int
     data: bytes
-    is_extended_id: Optional[bool] = None
+    is_extended_id: bool | None = None
 
     def __post_init__(self) -> None:
+        """Validate the dataclass fields after initialization."""
         if len(self.data) > 8:
             raise ValueError("CAN 2.0 frame data must be <= 8 bytes")
 
@@ -51,9 +51,10 @@ class CanInterface:
         self._channel = channel or cfg.channel
         self._bustype = bustype or cfg.bustype
         self._bitrate = cfg.bitrate
-        self._bus: Optional["can.Bus"] = None
+        self._bus: can.Bus | None = None
 
     def open(self) -> None:
+        """Open the resource."""
         if can is None:
             raise RuntimeError("python-can is not installed. Install saab_suite[hardware].")
 
@@ -65,11 +66,13 @@ class CanInterface:
         self._bus = can.Bus(**kwargs)
 
     def close(self) -> None:
+        """Close the resource."""
         if self._bus is not None:
             self._bus.shutdown()
             self._bus = None
 
     def send(self, frame: CanFrame) -> None:
+        """Send the requested payload."""
         if self._bus is None:
             raise RuntimeError("CAN interface not open")
         msg = can.Message(
@@ -79,7 +82,8 @@ class CanInterface:
         )
         self._bus.send(msg)
 
-    def recv(self, timeout: float = 0.1) -> Optional[CanFrame]:
+    def recv(self, timeout: float = 0.1) -> CanFrame | None:
+        """Receive the next payload."""
         if self._bus is None:
             raise RuntimeError("CAN interface not open")
         msg = self._bus.recv(timeout)

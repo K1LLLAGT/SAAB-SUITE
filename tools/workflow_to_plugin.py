@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
+import json
+import sys
+import textwrap
 from pathlib import Path
-import sys, json, textwrap
 
 ROOT = Path(__file__).resolve().parents[1]
 PLUGINS_DIR = ROOT / "plugins"
 WORKFLOWS_DIR = ROOT / "runtime" / "workflows"
 
 def main(workflow_name: str):
+    """Run the command-line entry point."""
     wf_file = WORKFLOWS_DIR / f"{workflow_name}.json"
     if not wf_file.exists():
         print(f"Workflow definition not found: {wf_file}")
@@ -25,8 +28,8 @@ def main(workflow_name: str):
     (src_dir / "plugin.py").write_text(
         textwrap.dedent(
             f"""
-            from SAAB_SUITE.plugins.base import BasePlugin
-            from SAAB_SUITE.services.workflow.engine import run_workflow
+            from saab_suite.plugins.base import BasePlugin
+            from saab_suite.services.workflow.engine import run_workflow
 
             class Plugin(BasePlugin):
                 name = "workflow-{workflow_name}"
@@ -44,7 +47,7 @@ def main(workflow_name: str):
             [project]
             name = "{pkg_name}"
             version = "0.1.0"
-            dependencies = ["SAAB_SUITE"]
+            dependencies = ["saab_suite"]
 
             [project.entry-points."saab_suite.plugins"]
             workflow_{workflow_name} = "{mod_name}.plugin:Plugin"

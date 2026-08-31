@@ -8,10 +8,11 @@ from can.remote import RemoteServer
 
 
 def main():
+    """Run the Linux CAN gateway entry point."""
     parser = argparse.ArgumentParser(description="SAAB Suite CAN remote gateway (Linux/RPi)")
     parser.add_argument("--channel", default="can0", help="SocketCAN interface (default: can0)")
     parser.add_argument("--bustype", default="socketcan", help="Bus type (default: socketcan)")
-    parser.add_argument("--host", default="0.0.0.0", help="Listen host (default: 0.0.0.0)")
+    parser.add_argument("--host", default="0.0.0.0", help="Listen host (default: 0.0.0.0)")  # noqa: S104
     parser.add_argument("--port", type=int, default=29536, help="Listen port (default: 29536)")
     args = parser.parse_args()
 

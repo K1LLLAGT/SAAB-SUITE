@@ -1,10 +1,9 @@
+import contextlib
+import select
 import socket
 import struct
-import select
-from typing import Optional
 
 import can  # python-can >= 4.x is fine for Message class
-
 
 # Frame format (big-endian):
 #   uint32  can_id
@@ -23,14 +22,13 @@ FLAG_RTR      = 0x04
 
 
 class RemoteTcpBus:
-    """
-    Minimal TCP CAN bus replacement for python-can's RemoteBus.
+    """Minimal TCP CAN bus replacement for python-can's RemoteBus.
 
     Expected to talk to a TCP gateway that understands the 16-byte frame format
     defined above, one frame per TCP packet (no extra length prefix).
     """
 
-    def __init__(self, host: str, port: int, timeout: Optional[float] = 1.0):
+    def __init__(self, host: str, port: int, timeout: float | None = 1.0):
         self._sock = socket.create_connection((host, port), timeout=timeout)
         self._sock.setblocking(False)
         self._default_timeout = timeout
@@ -38,10 +36,12 @@ class RemoteTcpBus:
     # --- public API ---
 
     def send(self, msg: can.Message) -> None:
+        """Send the requested payload."""
         frame = self._encode_frame(msg)
         self._sock.sendall(frame)
 
-    def recv(self, timeout: Optional[float] = None) -> Optional[can.Message]:
+    def recv(self, timeout: float | None = None) -> can.Message | None:
+        """Receive the next payload."""
         if timeout is None:
             timeout = self._default_timeout
 
@@ -56,21 +56,22 @@ class RemoteTcpBus:
         return self._decode_frame(data)
 
     def close(self) -> None:
-        try:
+        """Close the resource."""
+        with contextlib.suppress(OSError):
             self._sock.close()
-        except OSError:
-            pass
 
     # context manager support
     def __enter__(self):
+        """Return the context manager instance."""
         return self
 
     def __exit__(self, exc_type, exc, tb):
+        """Close the context manager."""
         self.close()
 
     # --- internal helpers ---
 
-    def _recv_exact(self, n: int) -> Optional[bytes]:
+    def _recv_exact(self, n: int) -> bytes | None:
         buf = bytearray()
         while len(buf) < n:
             try:
