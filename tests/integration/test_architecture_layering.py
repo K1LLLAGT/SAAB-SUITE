@@ -17,7 +17,7 @@ import pytest
 def test_import_linter_contracts_pass() -> None:
     lint_imports = shutil.which("lint-imports")
     if lint_imports is None:
-        pytest.skip("lint-imports not installed (pip install -e \".[dev]\")")
+        pytest.skip('lint-imports not installed (pip install -e ".[dev]")')
     result = subprocess.run(  # noqa: S603
         [lint_imports],
         capture_output=True,
